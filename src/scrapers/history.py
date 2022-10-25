@@ -1,4 +1,3 @@
-
 from bs4 import BeautifulSoup
 import requests
 
@@ -14,7 +13,7 @@ class HistoryScraper:
     # UURL = "https://chicago-history.r.mikatiming.com/2019/?page=1&event=MAR_999999107FA31100000000C9&lang=EN_CAP&num_results=100&pid=list&search%5Bsex%5D=M&search%5Bage_class%5D=%25"
     URL = "https://chicago-history.r.mikatiming.com/2015/?page=1&event=MAR_999999107FA31100000000C9&lang=EN_CAP&num_results=100&pid=list&search%5Bsex%5D=M&search%5Bage_class%5D=%25"
     content = requests.get(URL).content
-    soup = BeautifulSoup(content, 'html5lib') # If this line causes an error, run 'pip install html5lib' or install html5lib
+    soup = BeautifulSoup(content, 'html.parser') # If this line causes an error, run 'pip install html5lib' or install html5lib
 
     def get_num_athletes(self):
         race_info = self.soup.find('li', attrs={'class': 'list-group-item'})
