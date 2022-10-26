@@ -2,27 +2,13 @@ from dataclasses import dataclass
 from bs4 import BeautifulSoup
 import requests
 
-
-# table = soup.find('ul', attrs = {'class':'list-group list-group-multicolumn'}) 
-
-# for row in table.findAll('li', attrs = {'class':"list-active list-group-item row"}):
-#     for name in row.find('h4', attrs = {"type-fullname"}):
-#         print(name.text)
-
-class HistoryScraper:
-    """Scrapes Athlete data and finish times over 20 years"""
-    URL = "https://chicago-history.r.mikatiming.com/2015/?page=1&event=MAR_999999107FA31100000000C9&lang=EN_CAP&num_results=100&pid=list&search%5Bsex%5D=M&search%5Bage_class%5D=%25"
-    content = requests.get(URL).content
-    soup = BeautifulSoup(content, 'html.parser') # If this line causes an error, run 'pip install html5lib' or install html5lib
-
-    def get_num_athletes(self):
-        race_info = self.soup.find('li', attrs={'class': 'list-group-item'})
-        return race_info
-
 @dataclass
 class MarathonEvent:
     year: int
     id: str
+    num_athletes: int = 0
+    num_athletes_male: int = 0 
+    num_athletes_female: int = 0
 
 class EventJsonParser:
     """Parses json request to get unique event ids for history scraper"""
@@ -47,18 +33,64 @@ class EventJsonParser:
         marathon_list = [v for i, v in enumerate(all_events) if i % 4 < 2]            
         return marathon_list
 
-    def get_parsed_marathon_events(self) -> list[MarathonEvent]:
+    def get_parsed_marathon_events(self) -> dict[int:MarathonEvent]:
         """parses json data and returns a user friendly list of MarathonEvent objects
 
         Returns:
             list[MarathonEvent]: list of MarathonEvent objects
         """
         marathon_list = self.get_marathon_data()
-        parsed_marathon_events: list[MarathonEvent] = []
+        parsed_marathon_events: dict[int:MarathonEvent] = {}
         for idx in range(0, len(marathon_list)-1):
             if idx % 2 != 0:
                 continue #skips current iteration
             year = marathon_list[idx]['v'][0][-4:]
             marathon_id = marathon_list[idx+1]['v'][0]
-            parsed_marathon_events.append(MarathonEvent(year, marathon_id))
+            parsed_marathon_events[int(year)] = MarathonEvent(year,marathon_id)
         return parsed_marathon_events
+
+
+class HistoryScraper:
+    """Scrapes Athlete data and finish times over 20 years"""
+    def __init__(self):
+        self.marathons: dict[int:MarathonEvent] = EventJsonParser().get_parsed_marathon_events()
+
+    def get_parser(self, year:int, *, gender:str=None):
+        if gender is None:
+            URL = f"https://chicago-history.r.mikatiming.com/2015/?page=1&event=ALL_EVENT_GROUP_{str(year)}&lang=EN_CAP&pid=search&pidp=start" 
+        elif gender=='M' or gender=='W':
+           URL = f"https://chicago-history.r.mikatiming.com/2015/?page=2&event={self.marathons[year].id}&lang=EN_CAP&pid=list&pidp=start&search%5Bsex%5D={gender}&search%5Bage_class%5D=%25"
+        else:
+            raise ValueError("Gender must be either 'M' or 'W'")
+
+        content = requests.get(URL).content
+        return BeautifulSoup(content, 'html.parser') # If this line causes an error, run 'pip install html5lib' or install html5lib
+
+    def _populate_num_athletes(self) -> None:
+        """populates marathon objects number of athletes for a given years"""
+        for key in self.marathons:
+            parser: BeautifulSoup = self.get_parser(key)
+            marathon: MarathonEvent = self.marathons[key]
+            total_participants = parser.find('li', attrs={'class': 'list-group-item'}).text.split()[0]
+            marathon.num_athletes = total_participants
+
+    def _populate_num_female_athletes(self) -> None:
+        """populates marathon objects number of female athletes for a given year"""
+        for key in self.marathons:
+            parser: BeautifulSoup = self.get_parser(key, gender="W")
+            marathon: MarathonEvent = self.marathons[key]
+            total_female_participants = parser.find('li', attrs={'class': 'list-group-item'}).text.split()[0]
+            marathon.num_athletes_female = total_female_participants
+
+    def _populate_num_male_athletes(self) -> None:
+        """populates marathon objects number of male athletes for a given year"""
+        for key in self.marathons:
+            parser: BeautifulSoup = self.get_parser(key, gender="M")
+            marathon: MarathonEvent = self.marathons[key]
+            total_male_participants = parser.find('li', attrs={'class': 'list-group-item'}).text.split()[0]
+            marathon.num_athletes_male = total_male_participants
+
+    def scrapeForMarathons(self):
+        self._populate_num_athletes()
+        self._populate_num_female_athletes()
+        self._populate_num_male_athletes()
