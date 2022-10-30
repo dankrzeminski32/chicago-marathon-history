@@ -1,6 +1,11 @@
 from src.scrapers import history
 
 def test_get_marathons():
+    """
+    GIVEN a HistoryScraper object
+    WHEN HistoryScraper runs getMarathons
+    THEN return a valid marathonEvent with the correct data
+    """
     scraper = history.HistoryScraper()
     test_dict = {2021: scraper.marathons[2021]}
     scraper.marathons = test_dict
@@ -13,6 +18,11 @@ def test_get_marathons():
     assert test_obj.num_athletes_male == 14202
 
 def test_get_marathon_event_ids():
+    """
+    GIVEN an EventJsonParser object
+    WHEN asking for event ids
+    THEN return a list full of all 25 marathon event ids
+    """
     scraper = history.EventJsonParser()
     marathon_events: dict = scraper.get_marathon_event_ids()
     print(len(marathon_events))
