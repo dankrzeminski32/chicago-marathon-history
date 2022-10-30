@@ -1,14 +1,12 @@
+"""
+
+Module used to scrape the official chicago marathon results website. Will be used via a command line "flask run seed"
+
+"""
 from dataclasses import dataclass
 from bs4 import BeautifulSoup
 import requests
-
-@dataclass
-class MarathonEvent:
-    year: int
-    id: str
-    num_athletes: int = 0
-    num_athletes_male: int = 0 
-    num_athletes_female: int = 0
+from src.models.marathon import MarathonEvent
 
 class EventJsonParser:
     """Parses json request to get unique event ids for history scraper"""
@@ -59,7 +57,7 @@ class HistoryScraper:
         if gender is None:
             URL = f"https://chicago-history.r.mikatiming.com/2015/?page=1&event=ALL_EVENT_GROUP_{str(year)}&lang=EN_CAP&pid=search&pidp=start" 
         elif gender=='M' or gender=='W':
-           URL = f"https://chicago-history.r.mikatiming.com/2015/?page=2&event={self.marathons[year].id}&lang=EN_CAP&pid=list&pidp=start&search%5Bsex%5D={gender}&search%5Bage_class%5D=%25"
+           URL = f"https://chicago-history.r.mikatiming.com/2015/?page=2&event={self.marathons[year].web_id}&lang=EN_CAP&pid=list&pidp=start&search%5Bsex%5D={gender}&search%5Bage_class%5D=%25"
         else:
             raise ValueError("Gender must be either 'M' or 'W'")
 
@@ -90,7 +88,9 @@ class HistoryScraper:
             total_male_participants = parser.find('li', attrs={'class': 'list-group-item'}).text.split()[0]
             marathon.num_athletes_male = total_male_participants
 
-    def scrapeForMarathons(self):
+    def getMarathons(self) -> dict[int:MarathonEvent]:
+        """returns a list of MarathonEvent objects"""
         self._populate_num_athletes()
         self._populate_num_female_athletes()
         self._populate_num_male_athletes()
+        return self.marathons
