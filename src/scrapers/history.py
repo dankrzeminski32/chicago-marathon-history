@@ -1,9 +1,6 @@
 """
-
 Module used to scrape the official chicago marathon results website. Will be used via a command line "flask run seed"
-
 """
-from dataclasses import dataclass
 from bs4 import BeautifulSoup
 import requests
 from src.models.marathon import MarathonEvent
@@ -13,7 +10,7 @@ class EventJsonParser:
     URL = "https://chicago-history.r.mikatiming.com/2011/index.php?content=ajax2&func=getSearchFields&options[b][lists][event_main_group]=2015&options[b][lists][event]=&options[b][lists][sex]=&options[lang]=EN_CAP&options[pid]=start"
     content = requests.get(URL).json()
 
-    def get_event_list(self) -> list[dict]:
+    def _get_event_list(self) -> list[dict]:
         """returns raw list of events in json format
 
         Returns:
@@ -21,37 +18,37 @@ class EventJsonParser:
         """
         return self.content['branches']['search']['fields']['event']['data']
 
-    def get_marathon_data(self) -> list[dict]:
+    def _get_marathon_data(self) -> list[dict]:
         """returns raw list of marathon id's and marathon year information
 
         Returns:
             list[dict]: multiple dictionaries containing year and marathon id information
         """
-        all_events = self.get_event_list()
+        all_events = self._get_event_list()
         marathon_list = [v for i, v in enumerate(all_events) if i % 4 < 2]            
         return marathon_list
 
-    def get_parsed_marathon_events(self) -> dict[int:MarathonEvent]:
+    def get_marathon_event_ids(self) -> dict[int:MarathonEvent]:
         """parses json data and returns a user friendly list of MarathonEvent objects
 
         Returns:
             list[MarathonEvent]: list of MarathonEvent objects
         """
-        marathon_list = self.get_marathon_data()
+        marathon_list = self._get_marathon_data()
         parsed_marathon_events: dict[int:MarathonEvent] = {}
         for idx in range(0, len(marathon_list)-1):
             if idx % 2 != 0:
                 continue #skips current iteration
             year = marathon_list[idx]['v'][0][-4:]
             marathon_id = marathon_list[idx+1]['v'][0]
-            parsed_marathon_events[int(year)] = MarathonEvent(year,marathon_id)
+            parsed_marathon_events[int(year)] = MarathonEvent(int(year),marathon_id)
         return parsed_marathon_events
 
 
 class HistoryScraper:
     """Scrapes Athlete data and finish times over 20 years"""
     def __init__(self):
-        self.marathons: dict[int:MarathonEvent] = EventJsonParser().get_parsed_marathon_events()
+        self.marathons: dict[int:MarathonEvent] = EventJsonParser().get_marathon_event_ids()
 
     def get_parser(self, year:int, *, gender:str=None):
         if gender is None:
@@ -70,7 +67,7 @@ class HistoryScraper:
             parser: BeautifulSoup = self.get_parser(key)
             marathon: MarathonEvent = self.marathons[key]
             total_participants = parser.find('li', attrs={'class': 'list-group-item'}).text.split()[0]
-            marathon.num_athletes = total_participants
+            marathon.num_athletes = int(total_participants)
 
     def _populate_num_female_athletes(self) -> None:
         """populates marathon objects number of female athletes for a given year"""
@@ -78,7 +75,7 @@ class HistoryScraper:
             parser: BeautifulSoup = self.get_parser(key, gender="W")
             marathon: MarathonEvent = self.marathons[key]
             total_female_participants = parser.find('li', attrs={'class': 'list-group-item'}).text.split()[0]
-            marathon.num_athletes_female = total_female_participants
+            marathon.num_athletes_female = int(total_female_participants)
 
     def _populate_num_male_athletes(self) -> None:
         """populates marathon objects number of male athletes for a given year"""
@@ -86,7 +83,7 @@ class HistoryScraper:
             parser: BeautifulSoup = self.get_parser(key, gender="M")
             marathon: MarathonEvent = self.marathons[key]
             total_male_participants = parser.find('li', attrs={'class': 'list-group-item'}).text.split()[0]
-            marathon.num_athletes_male = total_male_participants
+            marathon.num_athletes_male = int(total_male_participants)
 
     def getMarathons(self) -> dict[int:MarathonEvent]:
         """returns a list of MarathonEvent objects"""

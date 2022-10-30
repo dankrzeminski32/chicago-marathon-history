@@ -27,3 +27,9 @@ class MarathonEvent(db.Model):
         self.num_athletes=num_athletes
         self.num_athletes_male=num_athletes_male
         self.num_athletes_female=num_athletes_female
+
+    def __repr__(self):
+       return 'MarathonEvent(year: %s, web_id: %s, num_athletes: %s, num_athletes_female: %s, num_athletes_male: %s)' % (self.year, self.web_id, self.num_athletes, self.num_athletes_female, self.num_athletes_male)    
+  
+    def __str__(self):
+       return f'Marathon Event in {self.year}, unique id = {self.web_id}'
