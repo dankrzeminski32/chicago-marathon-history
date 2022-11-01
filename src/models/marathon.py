@@ -20,6 +20,7 @@ class MarathonEvent(db.Model):
     num_athletes = db.Column(db.Integer)
     num_athletes_male = db.Column(db.Integer)
     num_athletes_female = db.Column(db.Integer)
+    results = db.relationship('Result', backref='marathon_event')
 
     def __init__(self, year, web_id, num_athletes=None, num_athletes_male=None,num_athletes_female=None):
         self.year = year

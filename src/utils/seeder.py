@@ -1,18 +1,23 @@
 from typing import Any
+from src import db
 
 class Seeder:
-    def __init__(self, db):
-        self.db = db
-
+    
     def populate_table(self, data: list[Any]) -> None:
-        if self.is_populated():
-           pass 
-        else:
-            for obj in data:
-                print(obj)
-                self.db.session.add(obj)
-            self.db.session.commit()         
+        """populates a table given a list """
+        for obj in data:
+            print(obj)
+            db.session.add(obj)
+        db.session.commit()         
 
+    def populate_athletes_and_results(self, data: list[tuple['Athlete', 'Result']]):
+        """Used this way to get the PK value from athlete to be used in the result table"""
 
-    def is_populated(self) -> bool:
-        return False 
+        for list in data:
+            for index, tup in enumerate(list):
+                print(tup)
+                db.session.add(tup[0])
+                db.session.commit()
+                tup[1].athlete_id = tup[0].id
+                db.session.add(tup[1])
+            db.session.commit()

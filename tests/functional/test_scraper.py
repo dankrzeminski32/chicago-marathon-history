@@ -6,7 +6,7 @@ def test_get_marathons():
     WHEN HistoryScraper runs getMarathons
     THEN return a valid marathonEvent with the correct data
     """
-    scraper = history.HistoryScraper()
+    scraper = history.HistoryMarathonScraper()
     test_dict = {2021: scraper.marathons[2021]}
     scraper.marathons = test_dict
     marathon_event_data = scraper.getMarathons()
@@ -25,5 +25,4 @@ def test_get_marathon_event_ids():
     """
     scraper = history.EventJsonParser()
     marathon_events: dict = scraper.get_marathon_event_ids()
-    print(len(marathon_events))
     assert(len(marathon_events) == 25)
