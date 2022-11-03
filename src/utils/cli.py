@@ -21,6 +21,7 @@ def seed():
     seed.populate_table(marathon_list)
     db.session.commit()
     data = history.HistoryAthleteScraper().get_data()
+    print(f"LENGTH OF RETRIEVED DATA, {data}")
     seed.populate_athletes_and_results(data)
 
 @db_commands_bp.cli.command("recreate")

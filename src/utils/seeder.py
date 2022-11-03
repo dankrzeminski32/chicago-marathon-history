@@ -12,10 +12,9 @@ class Seeder:
 
     def populate_athletes_and_results(self, data: list[tuple['Athlete', 'Result']]):
         """Used this way to get the PK value from athlete to be used in the result table"""
-
+        print(f"STARTING DB POPULATION, list size: {len(data)}")
         for list in data:
             for index, tup in enumerate(list):
-                print(tup)
                 db.session.add(tup[0])
                 db.session.commit()
                 tup[1].athlete_id = tup[0].id
