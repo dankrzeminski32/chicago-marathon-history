@@ -11,7 +11,6 @@ db_commands_bp = Blueprint("db", __name__)
 @db_commands_bp.cli.command("create")
 def create():
     db.create_all()
-    dif_seeder = seeder.Seeder()
 
 @db_commands_bp.cli.command("seed")
 def seed():
