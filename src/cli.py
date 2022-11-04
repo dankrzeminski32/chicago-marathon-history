@@ -1,7 +1,7 @@
 from flask import Blueprint
 from src import db
 from src.scrapers import history
-from src.utils import seeder
+from src import seeder
 from src.services.athlete_service import AthleteService
 from src.services.marathon_service import MarathonEventService
 from time import sleep
@@ -20,6 +20,17 @@ def seed():
     seed.populate_table(marathon_list)
     db.session.commit()
     data = history.HistoryAthleteScraper().get_data()
+    print(f"LENGTH OF RETRIEVED DATA, {data}")
+    seed.populate_athletes_and_results(data)
+
+@db_commands_bp.cli.command("seedsample")
+def seedsample():
+    marathons = history.HistoryMarathonScraper().get_marathons()
+    marathon_list = list(marathons.values())
+    seed = seeder.Seeder()
+    seed.populate_table(marathon_list)
+    db.session.commit()
+    data = history.HistoryAthleteScraper().get_data(sample=True)
     print(f"LENGTH OF RETRIEVED DATA, {data}")
     seed.populate_athletes_and_results(data)
 

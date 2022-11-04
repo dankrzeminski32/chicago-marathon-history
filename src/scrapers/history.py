@@ -103,30 +103,31 @@ class HistoryAthleteScraper:
     def __init__(self):
         self.marathons: list[MarathonEvent] = MarathonEventService.get_list()
 
-    def get_parser(self, marathon: MarathonEvent, *, gender:str=None, page:int=1):
+    def get_parser(self, marathon: MarathonEvent, *, gender:str=None, page:int=1, sample=False):
         if gender is None:
             URL = f"https://chicago-history.r.mikatiming.com/2015/?page={page}&event=ALL_EVENT_GROUP_{str(marathon.year)}&lang=EN_CAP&pid=search&pidp=start" 
         elif gender=='M' or gender=='W':
-           URL = f"https://chicago-history.r.mikatiming.com/2015/?page={page}&event={marathon.web_id}&lang=EN_CAP&num_results=1000&pid=list&pidp=start&search%5Bsex%5D={gender}&search%5Bage_class%5D=%25"
+           URL = f"https://chicago-history.r.mikatiming.com/2015/?page={page}&event={marathon.web_id}&lang=EN_CAP&num_results={25 if sample else None}&pid=list&pidp=start&search%5Bsex%5D={gender}&search%5Bage_class%5D=%25"
         else:
             raise ValueError("Gender must be either 'M' or 'W'")
 
         content = requests.get(URL).content
         return BeautifulSoup(content, 'html.parser') # If this line causes an error, run 'pip install html5lib' or install html5lib
 
-    def get_data(self) -> list[tuple]:
+    def get_data(self, sample=False) -> list[tuple]:
         all_marathon_data: list[list(tuple(Athlete, Result))] = []
 
         for marathon in self.marathons:
             num_pages_male = self._get_num_of_pages(marathon.num_athletes_male)
             print(num_pages_male)
-            male_data = self._get_athletes_and_results(marathon,'M',num_pages_male) 
+            male_data = self._get_athletes_and_results(marathon,'M',num_pages_male, sample)
             print(male_data)
             all_marathon_data.append(male_data)
             num_pages_female = self._get_num_of_pages(marathon.num_athletes_female)
             print(num_pages_female)
-            female_data = self._get_athletes_and_results(marathon,'W',num_pages_female) 
+            female_data = self._get_athletes_and_results(marathon,'W',num_pages_female,sample) 
             all_marathon_data.append(female_data)
+            print("ALL MARATHON SIZE: ", len(all_marathon_data[0]),"and ", len(all_marathon_data[1]))
             print(f"FINISHED YEAR {marathon.year}")
 
     
@@ -137,13 +138,12 @@ class HistoryAthleteScraper:
     def _get_num_of_pages(self, num_athletes: int) -> int:
         return math.ceil(num_athletes / 1000) 
 
-    def _get_athletes_and_results(self,marathon: MarathonEvent,gender: str, num_pages: int) -> list[tuple[Athlete, MarathonEvent]]:
+    def _get_athletes_and_results(self,marathon: MarathonEvent,gender: str, num_pages: int, sample: bool=False) -> list[tuple[Athlete, MarathonEvent]]:
 
         athletes = []
         results = []
-
         for idx in range(1,num_pages+1):
-            parser = self.get_parser(marathon, gender=gender, page=idx)
+            parser = self.get_parser(marathon, gender=gender, page=idx, sample=sample)
             parsers = parser.findAll("li", attrs={"class": ["list-group-item row","list-active list-group-item row"]})
 
             for parser in parsers:
@@ -157,5 +157,9 @@ class HistoryAthleteScraper:
                 athletes.append(athlete)
                 results.append(Result(place_overall=place_overall,place_gender=place_gender,
                 finish_time=time, bib=bib, age_group=age_group, athlete_id=athlete.id, marathon_event_id=marathon.id))
+                
+            if sample:
+                print("Returned early")
+                return list(zip(athletes, results))
             
         return list(zip(athletes, results))

@@ -13,9 +13,15 @@ def init_app():
 
     with app.app_context():
         # Import blueprints and modules
-        from src.utils import cli
+        from src import cli
+        from src.api import athlete
+        from src.api import marathon
+        from src.api import result
 
         # Register Blueprints
         app.register_blueprint(cli.db_commands_bp)
+        app.register_blueprint(athlete.athlete_api_bp)
+        app.register_blueprint(marathon.athlete_api_bp)
+        app.register_blueprint(result.athlete_api_bp)
 
         return app
