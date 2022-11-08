@@ -1,4 +1,6 @@
 from src.models.marathon import MarathonEvent
+from src.models.athlete import Athlete
+from src.constants import Sex
 
 def test_new_marathon():
     """
@@ -14,3 +16,12 @@ def test_new_marathon():
     assert marathon.num_athletes_male == None
 
     
+def test_new_athlete():
+    """
+    GIVEN a Athlete model
+    WHEN a new Athlete is created
+    THEN check to make sure the relationship back to marathons is working properly
+    """
+    athlete = Athlete(name="dan", gender=Sex.MALE.value)
+    assert athlete.name == "dan"
+    assert athlete.gender == 1

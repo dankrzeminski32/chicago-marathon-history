@@ -9,7 +9,7 @@ def test_get_marathons():
     scraper = history.HistoryMarathonScraper()
     test_dict = {2021: scraper.marathons[2021]}
     scraper.marathons = test_dict
-    marathon_event_data = scraper.getMarathons()
+    marathon_event_data = scraper.get_marathons()
     test_obj = marathon_event_data[2021]
     assert test_obj.year == 2021 
     assert test_obj.web_id == 'MAR_9TGG9638F1'

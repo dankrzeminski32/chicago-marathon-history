@@ -1,4 +1,12 @@
 from .. import db
+from marshmallow import Schema, fields
+
+marathon_athlete = db.Table('marathon_athlete', 
+                            db.Column('MarathonEvent_id',db.Integer, db.ForeignKey('MarathonEvents.id')),
+                            db.Column('Athletes_id',db.Integer, db.ForeignKey('Athletes.id'))
+                            )
+
+
 
 class MarathonEvent(db.Model):
     """Data model for our each chicago marathon"""
@@ -21,6 +29,7 @@ class MarathonEvent(db.Model):
     num_athletes_male = db.Column(db.Integer)
     num_athletes_female = db.Column(db.Integer)
     results = db.relationship('Result', backref='marathon_event')
+    athletes = db.relationship('Athlete', secondary='marathon_athlete', backref='marathons')
 
     def __init__(self, year, web_id, num_athletes=None, num_athletes_male=None,num_athletes_female=None):
         self.year = year
@@ -34,3 +43,12 @@ class MarathonEvent(db.Model):
   
     def __str__(self):
        return f'Marathon Event in {self.year}, unique id = {self.web_id}'
+
+
+
+class MarathonSchema(Schema):
+    id = fields.Number()
+    year = fields.Number()
+    num_athletes = fields.Number()
+    num_athletes_male = fields.Number()
+    num_athletes_female = fields.Number()

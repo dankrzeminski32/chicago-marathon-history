@@ -2,8 +2,9 @@
 from ..models.athlete import Athlete
 
 class AthleteService(object):
+    """Class used to execute queries and retrieve data related to MarathonEvent objects"""
     
-    def get():
-        qry= Athlete.query.filter(Athlete.id==1)
-        athlete = qry.first()
-        print(athlete.results[0].finish_time)
+    @staticmethod
+    def get_all() -> list[Athlete]:
+        """Gets a list of all Athletes in our db"""
+        return Athlete.query.all()

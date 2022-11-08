@@ -21,7 +21,7 @@ def init_app():
         # Register Blueprints
         app.register_blueprint(cli.db_commands_bp)
         app.register_blueprint(athlete.athlete_api_bp)
-        app.register_blueprint(marathon.athlete_api_bp)
-        app.register_blueprint(result.athlete_api_bp)
+        app.register_blueprint(marathon.marathon_api_bp)
+        app.register_blueprint(result.result_api_bp)
 
         return app

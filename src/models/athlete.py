@@ -1,6 +1,6 @@
 from .. import db
 from src.constants import Sex
-
+from marshmallow import Schema, fields
 
 class Athlete(db.Model):
     """Data model for our Chicago Marathon Athletes"""
@@ -19,3 +19,14 @@ class Athlete(db.Model):
         server_default=str(Sex.NOT_KNOWN.value)
     )
     results = db.relationship('Result', backref='athlete')
+
+    def __repr__(self):
+       return 'Athlete(id: %s, name %s, gender %s)' % (self.id, self.name, self.gender)    
+  
+    def __str__(self):
+       return 'Athlete - %s' % self.name
+
+class AthleteSchema(Schema):
+    id = fields.Number()
+    name = fields.Str()
+    gender = fields.Str()
