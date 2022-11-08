@@ -101,7 +101,7 @@ class HistoryMarathonScraper:
 class HistoryAthleteScraper:
     
     def __init__(self):
-        self.marathons: list[MarathonEvent] = MarathonEventService.get_list()
+        self.marathons: list[MarathonEvent] = MarathonEventService.get_all()
 
     def get_parser(self, marathon: MarathonEvent, *, gender:str=None, page:int=1, sample=False):
         if gender is None:
@@ -154,6 +154,7 @@ class HistoryAthleteScraper:
                 bib = parser.find("div", attrs={"class": "list-field type-field"}).text[3:] #bib
                 age_group = parser.find("div", attrs={"class": "list-field type-age_class"}).text[8:] #age group
                 athlete = Athlete(name=name,gender=Sex.MALE.value if gender=='M' else Sex.FEMALE.value)
+                marathon.athletes.append(athlete)
                 athletes.append(athlete)
                 results.append(Result(place_overall=place_overall,place_gender=place_gender,
                 finish_time=time, bib=bib, age_group=age_group, athlete_id=athlete.id, marathon_event_id=marathon.id))

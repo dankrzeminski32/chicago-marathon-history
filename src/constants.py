@@ -7,3 +7,8 @@ class Sex(Enum):
     MALE = 1
     FEMALE = 2
     NOT_APPLICABLE = 9
+
+class ENDPOINTS(Enum):
+    """Used to represent the url strings for our api endpoints"""
+    ATHLETES = '/api/athletes/'
+    MARATHONS = '/api/marathons/'

@@ -29,4 +29,4 @@ class Athlete(db.Model):
 class AthleteSchema(Schema):
     id = fields.Number()
     name = fields.Str()
-    gender = fields.Str()
+    gender = fields.Number()

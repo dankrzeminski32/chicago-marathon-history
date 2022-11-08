@@ -2,9 +2,10 @@ from flask import Blueprint
 from src import db
 from src.scrapers import history
 from src import seeder
+from config import TestConfig
+from flask_sqlalchemy import SQLAlchemy
 from src.services.athlete_service import AthleteService
 from src.services.marathon_service import MarathonEventService
-from time import sleep
 
 db_commands_bp = Blueprint("db", __name__)
 
@@ -38,3 +39,9 @@ def seedsample():
 def recreate():
     db.drop_all()
     db.create_all()
+
+
+@db_commands_bp.cli.command("test")
+def test():
+    print(MarathonEventService.get_by_year(2030))
+    print(AthleteService.get_all_by_year(2008))
