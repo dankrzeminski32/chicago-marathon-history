@@ -9,7 +9,8 @@ from src.models.result import Result
 from src.services.marathon_service import MarathonEventService
 import math
 from src.constants import SEX
-
+from time import sleep
+from random import randint
 
 class EventJsonParser:
     """Parses json request to get unique event ids for history scraper"""
@@ -172,6 +173,7 @@ class HistoryAthleteScraper:
         athletes = []
         results = []
         for idx in range(1, num_pages + 1):
+            sleep(randint(1,3))
             parser = self.get_parser(marathon, gender=gender, page=idx, sample=sample)
             parsers = parser.findAll(
                 "li",
@@ -205,8 +207,12 @@ class HistoryAthleteScraper:
                 ).text[
                     8:
                 ]  # age group
+                first_and_last_name = name.split(', ')
+                first_name = first_and_last_name[0]
+                last_name = first_and_last_name[1]
                 athlete = Athlete(
-                    name=name,
+                    first_name=first_name,
+                    last_name=last_name,
                     gender=SEX.MALE.value if gender == "M" else SEX.FEMALE.value,
                 )
                 marathon.athletes.append(athlete)

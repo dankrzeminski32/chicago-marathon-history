@@ -8,15 +8,16 @@ class Athlete(db.Model):
 
     __tablename__ = "Athletes"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=False, nullable=False)
+    first_name = db.Column(db.String(100), unique=False, nullable=False)
+    last_name = db.Column(db.String(100), unique=False, nullable=False)
     gender = db.Column(db.SmallInteger, server_default=str(SEX.NOT_KNOWN.value))
     results = db.relationship("Result", backref="athlete")
 
     def __repr__(self):
-        return "Athlete(id: %s, name %s, gender %s)" % (self.id, self.name, self.gender)
+        return "Athlete(id: %s, name %s %s, gender %s)" % (self.id, self.first_name,self.last_name, self.gender)
 
     def __str__(self):
-        return "Athlete - %s" % self.name
+        return "Athlete - %s %s" % (self.first_name, self.last_name)
 
 
 class AthleteSchema(Schema):
