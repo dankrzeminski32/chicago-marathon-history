@@ -2,6 +2,7 @@ from src.models.marathon import MarathonEvent
 from src.models.athlete import Athlete
 from src.constants import SEX
 
+
 def test_new_marathon():
     """
     GIVEN a MarathonEvent model
@@ -15,7 +16,7 @@ def test_new_marathon():
     assert marathon.num_athletes_female == None
     assert marathon.num_athletes_male == None
 
-    
+
 def test_new_athlete():
     """
     GIVEN a Athlete model

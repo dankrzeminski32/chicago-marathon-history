@@ -1,16 +1,16 @@
 from typing import Any
 from src import db
 
+
 class Seeder:
-    
     def populate_table(self, data: list[Any]) -> None:
-        """populates a table given a list """
+        """populates a table given a list"""
         for obj in data:
             print(obj)
             db.session.add(obj)
-        db.session.commit()         
+        db.session.commit()
 
-    def populate_athletes_and_results(self, data: list[tuple['Athlete', 'Result']]):
+    def populate_athletes_and_results(self, data: list[tuple["Athlete", "Result"]]):
         """Used this way to get the PK value from athlete to be used in the result table"""
         print(f"STARTING DB POPULATION, list size: {len(data)}")
         for list in data:

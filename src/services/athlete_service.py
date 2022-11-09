@@ -1,6 +1,6 @@
-
 from ..models.athlete import Athlete
 from src.services.marathon_service import MarathonEventService
+
 
 class AthleteService(object):
     """Class used to execute queries and retrieve data related to MarathonEvent objects"""
