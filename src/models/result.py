@@ -31,7 +31,7 @@ class Result(db.Model):
     athlete_id = db.Column(db.Integer, db.ForeignKey('Athletes.id'))
 
     def __repr__(self):
-        return f'Result - id: {self.id},bib: {self.bib},marathon_event_id: {self.marathon_event_id}'
+        return f'Result<id: {self.id},bib: {self.bib},marathon_event_id: {self.marathon_event_id}>'
   
     def __str__(self):
-       return f'Marathon Event in {self.year}, unique id = {self.web_id}'
+       return f'Result for {self.id}, Place Overall: {self.place_overall}, Place Gender: {self.place_gender}'
