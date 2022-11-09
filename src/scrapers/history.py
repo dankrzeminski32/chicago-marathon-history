@@ -8,7 +8,7 @@ from src.models.athlete import Athlete
 from src.models.result import Result
 from src.services.marathon_service import MarathonEventService
 import math
-from src.constants import Sex
+from src.constants import SEX
 
 class EventJsonParser:
     """Parses json request to get unique event ids for history scraper"""
@@ -153,7 +153,7 @@ class HistoryAthleteScraper:
                 time = parser.find("div", attrs={"class": "list-field type-time"}).text[6:] #time
                 bib = parser.find("div", attrs={"class": "list-field type-field"}).text[3:] #bib
                 age_group = parser.find("div", attrs={"class": "list-field type-age_class"}).text[8:] #age group
-                athlete = Athlete(name=name,gender=Sex.MALE.value if gender=='M' else Sex.FEMALE.value)
+                athlete = Athlete(name=name,gender=SEX.MALE.value if gender=='M' else SEX.FEMALE.value)
                 marathon.athletes.append(athlete)
                 athletes.append(athlete)
                 results.append(Result(place_overall=place_overall,place_gender=place_gender,

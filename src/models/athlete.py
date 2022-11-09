@@ -1,5 +1,5 @@
 from .. import db
-from src.constants import Sex
+from src.constants import SEX
 from marshmallow import Schema, fields
 
 class Athlete(db.Model):
@@ -16,7 +16,7 @@ class Athlete(db.Model):
     )
     gender = db.Column(
         db.SmallInteger,
-        server_default=str(Sex.NOT_KNOWN.value)
+        server_default=str(SEX.NOT_KNOWN.value)
     )
     results = db.relationship('Result', backref='athlete')
 

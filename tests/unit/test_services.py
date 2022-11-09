@@ -12,6 +12,17 @@ def test_AthleteService_get_all(test_client):
     athletes = AthleteService.get_all()
     assert len(athletes) == 1250
 
+def test_AthleteService_get_all_by_year(test_client):
+    """
+    Given an AthleteService class
+    WHEN get_all_by_year is called with valid input
+    return all athletes for a given year
+    """
+    athletes = AthleteService.get_all_by_year(2019)
+    assert len(athletes) == 50
+    bad_input_athletes = AthleteService.get_all_by_year(2050)
+    assert bad_input_athletes == None
+
 
 ### MARATHON SERVICE TESTS ###
 def test_MarathonService_get_all(test_client):
