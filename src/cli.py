@@ -39,9 +39,3 @@ def seedsample():
 def recreate():
     db.drop_all()
     db.create_all()
-
-
-@db_commands_bp.cli.command("test")
-def test():
-    print(MarathonEventService.get_by_year(2030))
-    print(AthleteService.get_all_by_year(2008))
