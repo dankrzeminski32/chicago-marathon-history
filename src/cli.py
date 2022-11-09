@@ -2,10 +2,6 @@ from flask import Blueprint
 from src import db
 from src.scrapers import history
 from src import seeder
-from config import TestConfig
-from flask_sqlalchemy import SQLAlchemy
-from src.services.athlete_service import AthleteService
-from src.services.marathon_service import MarathonEventService
 
 db_commands_bp = Blueprint("db", __name__)
 
