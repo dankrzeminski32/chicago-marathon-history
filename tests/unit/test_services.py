@@ -1,5 +1,5 @@
-from src.services.athlete_service import AthleteService
-from src.services.marathon_service import MarathonEventService
+from src.backend.services.athlete_service import AthleteService
+from src.backend.services.marathon_service import MarathonEventService
 import pytest
 
 ### ATHLETE SERVICE TESTS ###

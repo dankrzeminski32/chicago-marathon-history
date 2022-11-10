@@ -1,5 +1,5 @@
 import pytest
-from src import init_app
+from src.backend import init_app
 from config import TestConfig
 
 

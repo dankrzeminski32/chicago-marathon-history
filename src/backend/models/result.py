@@ -1,4 +1,4 @@
-from .. import db
+from src.backend import db
 
 
 class Result(db.Model):

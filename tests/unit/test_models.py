@@ -1,6 +1,6 @@
-from src.models.marathon import MarathonEvent
-from src.models.athlete import Athlete
-from src.constants import SEX
+from src.backend.models.marathon import MarathonEvent
+from src.backend.models.athlete import Athlete
+from src.backend.constants import SEX
 
 
 def test_new_marathon():
@@ -23,6 +23,6 @@ def test_new_athlete():
     WHEN a new Athlete is created
     THEN check to make sure the relationship back to marathons is working properly
     """
-    athlete = Athlete(name="dan", gender=SEX.MALE.value)
-    assert athlete.name == "dan"
+    athlete = Athlete(first_name="dan", gender=SEX.MALE.value)
+    assert athlete.first_name == "dan"
     assert athlete.gender == 1

@@ -1,4 +1,4 @@
-from .. import db
+from src.backend import db
 from marshmallow import Schema, fields
 
 marathon_athlete = db.Table(

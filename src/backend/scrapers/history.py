@@ -3,12 +3,12 @@ Module used to scrape the official chicago marathon results website. Will be use
 """
 from bs4 import BeautifulSoup
 import requests
-from src.models.marathon import MarathonEvent
-from src.models.athlete import Athlete
-from src.models.result import Result
-from src.services.marathon_service import MarathonEventService
+from src.backend.models.marathon import MarathonEvent
+from src.backend.models.athlete import Athlete
+from src.backend.models.result import Result
+from src.backend.services.marathon_service import MarathonEventService
 import math
-from src.constants import SEX
+from src.backend.constants import SEX
 from time import sleep
 from random import randint
 

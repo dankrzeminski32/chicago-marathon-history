@@ -1,4 +1,4 @@
-from src import init_app
+from src.backend import init_app
 from config import DevConfig, TestConfig
 
 app = init_app(TestConfig)

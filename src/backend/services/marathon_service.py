@@ -1,7 +1,5 @@
-from ..models.marathon import MarathonEvent
+from src.backend.models.marathon import MarathonEvent
 from sqlalchemy.exc import NoResultFound
-from .. import db
-
 
 class MarathonEventService(object):
     """Class used to execute queries and retrieve data related to MarathonEvent objects"""

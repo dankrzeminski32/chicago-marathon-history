@@ -1,5 +1,5 @@
-from .. import db
-from src.constants import SEX
+from src.backend import db
+from src.backend.constants import SEX
 from marshmallow import Schema, fields
 
 
@@ -23,5 +23,6 @@ class Athlete(db.Model):
 
 class AthleteSchema(Schema):
     id = fields.Number()
-    name = fields.Str()
+    first_name = fields.Str()
+    last_name = fields.Str()
     gender = fields.Number()

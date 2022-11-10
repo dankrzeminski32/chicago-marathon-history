@@ -1,7 +1,7 @@
 from flask import Blueprint
-from src import db
-from src.scrapers import history
-from src import seeder
+from src.backend import db
+from src.backend.scrapers import history
+from src.backend import seeder
 
 db_commands_bp = Blueprint("db", __name__)
 
