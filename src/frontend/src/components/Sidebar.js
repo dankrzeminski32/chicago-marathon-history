@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Sidebar() {
     const [marathons, setMarathons] = useState([]);
@@ -26,10 +27,15 @@ function Sidebar() {
                 <li className="sidebar-brand">
                     <a href="#">Years</a>
                 </li>
-                {marathons.map(({ id, year }) => {
+                {marathons.map((marathon) => {
                     return (
-                        <li key={id} className="sidebar-brand">
-                            <a href="#">{year}</a>
+                        <li key={marathon.id} className="sidebar-brand">
+                            <Link
+                                to={`/marathon/${marathon.year}`}
+                                state={{ marathon }}
+                            >
+                                {marathon.year}
+                            </Link>
                         </li>
                     );
                 })}
