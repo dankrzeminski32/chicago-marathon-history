@@ -1,12 +1,13 @@
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
+import Home from "./components/Home";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 function App() {
     return (
-        <div className="App">
-            <Header></Header>
-            <Sidebar></Sidebar>
-        </div>
+        <Router>
+            <Routes>
+                <Route exact path="/" element={<Home />} />
+            </Routes>
+        </Router>
     );
 }
 

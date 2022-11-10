@@ -1,8 +1,8 @@
 function Sidebar() {
     return (
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
+            <ul className="sidebar-nav">
+                <li className="sidebar-brand">
                     <a href="#">Years</a>
                 </li>
                 <li>
