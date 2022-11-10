@@ -5,8 +5,8 @@ import Container from "react-bootstrap/Container";
 function Layout({ children }) {
     return (
         <div className="App">
-            <Header></Header>
             <Sidebar></Sidebar>
+            <Header></Header>
             <Container>{children}</Container>
         </div>
     );
