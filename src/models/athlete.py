@@ -10,6 +10,7 @@ class Athlete(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(100), unique=False, nullable=False)
     last_name = db.Column(db.String(100), unique=False, nullable=False)
+    country = db.Column(db.String(100), unique=False, nullable=True)
     gender = db.Column(db.SmallInteger, server_default=str(SEX.NOT_KNOWN.value))
     results = db.relationship("Result", backref="athlete")
 
