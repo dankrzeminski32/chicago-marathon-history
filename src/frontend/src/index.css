@@ -143,3 +143,15 @@ body {
         margin-right: 0;
     }
 }
+
+.inner-nav {
+    background-color: #c9c9c9;
+}
+
+#inner-button-group {
+    width: 100%;
+}
+
+#selected-container {
+    height: 100vh;
+}

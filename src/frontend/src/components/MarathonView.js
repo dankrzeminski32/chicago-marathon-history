@@ -1,16 +1,19 @@
-import Layout from "./Layout";
-import { useLocation } from "react-router-dom";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Container from "react-bootstrap/Container";
 
-function MarathonView(props) {
-    const location = useLocation();
-    console.log(props, " props");
-    console.log(location, " useLocation Hook");
-    const marathon = location.state?.marathon;
-
+function MarathonView({ selected }) {
     return (
-        <Layout>
-            <h1>{marathon.year}</h1>
-        </Layout>
+        <Container id="selected-container">
+            <Row className="h-50">
+                <Col sm={6}>sm=6 - {selected}</Col>
+                <Col sm={6}>sm=6</Col>
+            </Row>
+            <Row className="h-50">
+                <Col sm={6}>sm=6</Col>
+                <Col sm={6}>sm=6</Col>
+            </Row>
+        </Container>
     );
 }
 export default MarathonView;

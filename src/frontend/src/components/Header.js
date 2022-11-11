@@ -2,12 +2,14 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 
-function Header() {
+function Header({ marathon }) {
+    console.log(marathon, "WOOHOOO PROPS - HEADer ");
     return (
         <Navbar bg="light" expand="lg">
             <Container>
                 <Navbar.Brand href="#home">
-                    Chicago Marathon History
+                    Chicago Marathon History{" "}
+                    {marathon && <strong>- {marathon.year}</strong>}
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
