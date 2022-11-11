@@ -1,14 +1,9 @@
 import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 
 function FilterNavbar({ selected, setSelected }) {
-    function onChangeValue(event) {
-        setSelected(event.target.value);
-    }
     return (
         <Navbar className="inner-nav" expand="lg">
             <Container>
