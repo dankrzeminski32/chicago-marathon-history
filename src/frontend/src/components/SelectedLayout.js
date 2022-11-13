@@ -26,7 +26,10 @@ function SelectedLayout(props) {
                 selected={selected}
                 setSelected={setSelected}
             ></FilterNavbar>
-            <MarathonView selected={selected}></MarathonView>
+            <MarathonView
+                marathon={marathon}
+                selected={selected}
+            ></MarathonView>
         </div>
     );
 }
