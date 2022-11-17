@@ -153,5 +153,8 @@ body {
 }
 
 #selected-container {
-    height: 100vh;
+    height: 80vh;
+    padding: 4rem;
+    margin-top: 3rem;
+    background-color: rgba(197, 197, 197, 0.089);
 }
