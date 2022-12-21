@@ -11,6 +11,7 @@ import math
 from src.backend.constants import SEX
 from time import sleep
 from random import randint
+import datetime
 
 class EventJsonParser:
     """Parses json request to get unique event ids for history scraper"""
@@ -226,11 +227,12 @@ class HistoryAthleteScraper:
                 )
                 marathon.athletes.append(athlete)
                 athletes.append(athlete)
+                time_obj = datetime.datetime.strptime(time, '%H:%M:%S')
                 results.append(
                     Result(
                         place_overall=place_overall,
                         place_gender=place_gender,
-                        finish_time=time,
+                        finish_time=time_obj,
                         bib=bib,
                         age_group=age_group,
                         athlete_id=athlete.id,
