@@ -13,7 +13,7 @@ function Overview({ marathon }) {
                     <BarMaleFemaleParticipants marathon={marathon} />
                 </Col>
                 <Col sm={6}>
-                    <LineFinishTimes marathon={marathon} />
+                    {/* <LineFinishTimes marathon={marathon} /> */}
                 </Col>
             </Row>
             <Row className="h-50">

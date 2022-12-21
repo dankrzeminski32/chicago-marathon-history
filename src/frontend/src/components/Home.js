@@ -1,4 +1,5 @@
 import Layout from "./Layout";
+import { AthleteGrowthByYear } from "./graphs/AthleteGrowthByYear";
 
 function Home() {
     return (
@@ -7,6 +8,7 @@ function Home() {
                 Welcome to a brief tour down the history of the Chicago Marathon
             </h1>
             <p>Broken Records, Evolution of the sport, and so much more...</p>
+            <AthleteGrowthByYear></AthleteGrowthByYear>
         </Layout>
     );
 }

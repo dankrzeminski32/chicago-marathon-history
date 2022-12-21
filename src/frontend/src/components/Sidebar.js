@@ -25,7 +25,7 @@ function Sidebar() {
         <div id="sidebar-wrapper">
             <ul className="sidebar-nav">
                 <li className="sidebar-brand">
-                    <a href="#">Years</a>
+                    <Link to="/">Years</Link>
                 </li>
                 {marathons.map((marathon) => {
                     return (
