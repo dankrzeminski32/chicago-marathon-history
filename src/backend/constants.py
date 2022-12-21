@@ -15,6 +15,7 @@ class ENDPOINTS(Enum):
 
     ATHLETES = "/api/athletes/"
     MARATHONS = "/api/marathons/"
+    RESULTS = "/api/results/"
 
 
 class ERROR_MESSAGES(Enum):
