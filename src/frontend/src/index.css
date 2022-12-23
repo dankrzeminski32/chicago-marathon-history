@@ -158,3 +158,18 @@ body {
     margin-top: 3rem;
     background-color: rgba(197, 197, 197, 0.089);
 }
+
+.main-header-bar {
+    position: relative;
+    background-image: url("../public/chicagoskyline.png");
+    background-size: cover;
+    background-position: 40% 60%;
+    color: black;
+}
+
+.main-header-bar span {
+    color: black;
+}
+.main-header-bar a {
+    color: black;
+}

@@ -10,7 +10,6 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
-import { Scatter } from "react-chartjs-2";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 
@@ -35,7 +34,6 @@ export const AthleteGrowthByYear = () => {
             url: "http://127.0.0.1:5000/api/marathons/",
         })
             .then((response) => {
-                console.log(response.data);
                 setMarathons(response.data.reverse());
                 setError(null);
                 setLabels(response.data.map((x) => x.year));

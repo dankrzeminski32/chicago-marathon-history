@@ -14,42 +14,53 @@ import axios from "axios";
 export const LineFinishTimes = ({ marathon }) => {
     const [chartData, SetChartData] = useState({});
     const [haveData, setHaveData] = useState(false);
-    const [athletes, setAthletes] = useState([]);
+    const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
+    const [chartJson, setChartJson] = useState([]);
 
     useEffect(() => {
         axios({
             method: "GET",
-            url: "http://127.0.0.1:5000/api/athletes/" + marathon.year,
+            url: "http://127.0.0.1:5000/api/results/" + marathon.year,
         })
             .then((response) => {
-                console.log("HERE" + response.data);
-                setAthletes(response.data);
+                setResults(response.data);
+                console.log(response.data);
+                setChartJson(
+                    response.data.map((item) => {
+                        const container = {};
+                        container["x"] = item.place_overall;
+                        var hoursMinutes = item.finish_time.split(/[.:]/);
+                        var hours = parseInt(hoursMinutes[0], 10);
+                        var minutes = hoursMinutes[1]
+                            ? parseInt(hoursMinutes[1], 10)
+                            : 0;
+                        var finish_time_as_number = hours + minutes / 60;
+                        container["y"] = finish_time_as_number;
+                        return container;
+                    })
+                );
+                console.log(chartJson);
+                console.log(results);
                 setError(null);
             })
             .catch(setError);
     }, [marathon]);
 
     Chart.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
-    console.log(athletes);
 
     useEffect(() => {
         SetChartData({
             labels: "A dataset",
             datasets: [
                 {
-                    data: [
-                        {
-                            x: marathon.num_athletes_male,
-                            y: marathon.num_athletes_female,
-                        },
-                    ],
+                    data: chartJson,
                     backgroundColor: ["skyblue", "pink"],
                 },
             ],
         });
         setHaveData(true);
-    }, [marathon]);
+    }, [marathon, chartJson, results]);
 
     const options = {
         scales: {
@@ -59,7 +70,7 @@ export const LineFinishTimes = ({ marathon }) => {
         },
     };
 
-    if (!haveData) {
+    if (!haveData || error) {
         // here
         return <div>Loading...</div>;
     }

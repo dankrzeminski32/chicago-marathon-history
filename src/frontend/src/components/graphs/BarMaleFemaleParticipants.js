@@ -9,7 +9,6 @@ export const BarMaleFemaleParticipants = ({ marathon }) => {
     const [haveData, setHaveData] = useState(false);
 
     Chart.register(...registerables);
-    console.log(marathon);
 
     useEffect(() => {
         SetChartData({

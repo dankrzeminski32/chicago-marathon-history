@@ -7,15 +7,12 @@ import { useEffect, useState } from "react";
 
 function SelectedLayout(props) {
     const location = useLocation();
-    console.log(props, " props");
-    console.log(location, " useLocation Hook");
     const marathon = location.state?.marathon;
 
     const [selected, setSelected] = useState(1);
 
     useEffect(() => {
         setSelected(1);
-        console.log("USE EFFECT LOGIC HAS RAN");
     }, [marathon]);
 
     return (
