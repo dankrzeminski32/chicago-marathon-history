@@ -2,6 +2,7 @@ from flask import Blueprint
 from src.backend import db
 from src.backend.scrapers import history
 from src.backend import seeder
+from src.backend.services.result_service import ResultService
 
 db_commands_bp = Blueprint("db", __name__)
 
@@ -9,7 +10,6 @@ db_commands_bp = Blueprint("db", __name__)
 @db_commands_bp.cli.command("create")
 def create():
     db.create_all()
-
 
 @db_commands_bp.cli.command("seed")
 def seed():

@@ -16,7 +16,7 @@ def get_marathons():
     return jsonify(marathons)
 
 
-@marathon_api_bp.route("/<year>")
+@marathon_api_bp.route("/<int:year>")
 def get_marathon_by_year(year):
     schema = MarathonSchema()
     marathon = MarathonEventService.get_by_year(year)

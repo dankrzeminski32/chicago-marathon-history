@@ -16,7 +16,7 @@ def test_get_marathons():
     assert test_obj.web_id == "MAR_9TGG9638F1"
     assert test_obj.num_athletes == 33543
     assert test_obj.num_athletes_female == 11876
-    assert test_obj.num_athletes_male == 14202
+    assert test_obj.num_athletes_male == 14203
 
 
 def test_get_marathon_event_ids():

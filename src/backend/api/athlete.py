@@ -15,7 +15,7 @@ def get_athletes():
     return jsonify(athletes)
 
 
-@athlete_api_bp.route("/<year>", methods=["GET"])
+@athlete_api_bp.route("/<int:year>", methods=["GET"])
 def get_athletes_by_year(year):
     schema = AthleteSchema(many=True)
     all_athletes = AthleteService.get_all_by_year(year)

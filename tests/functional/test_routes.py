@@ -1,4 +1,5 @@
 from src.backend.constants import ENDPOINTS
+from src.backend.constants import SEX
 import pytest
 
 """
@@ -52,12 +53,12 @@ def test_marathon_get_by_year_endpoint(test_client, input, output):
     assert response.status_code == 200
 
 
-### ATHLETE ENDPOINT TESTS ###
+### athlete endpoint tests ###
 def test_athletes_endpoint(test_client):
     """
-    GIVEN a GET request to /athletes endpoint
-    WHEN api is called
-    THEN return 1250 athletes (sample population)
+    given a get request to /athletes endpoint
+    when api is called
+    then return 1250 athletes (sample population)
     """
     response = test_client.get(ENDPOINTS.ATHLETES.value)
     response_json = response.get_json()
@@ -70,13 +71,12 @@ def test_athletes_endpoint(test_client):
 
 def test_athletes_get_by_year_endpoint(test_client):
     """
-    GIVEN a GET request to /athletes/<year>
-    WHEN api is called
-    THEN return athletes for that year
+    given a get request to /athletes/<year>
+    when api is called
+    then return athletes for that year
     """
     response = test_client.get(ENDPOINTS.ATHLETES.value + "2018")
     response_json = response.get_json()
-    print(response_json)
     assert response_json[0]["first_name"] == "Farah"
     assert response_json[0]["gender"] == 1
     assert len(response_json) == 50
@@ -93,3 +93,44 @@ def test_athletes_get_by_year_bad_input_endpoint(test_client):
     response_json = response.get_json()
     assert response_json == {"Error": "Invalid year, please try again."}
     assert response.status_code == 200
+
+### RESULT ENDPOINT TESTS ###
+
+def test_results_get_by_year(test_client):
+    """
+    GIVEN a GET request to /results/<year>
+    WHEN api is called
+    THEN return results for that year
+    """
+    response = test_client.get(ENDPOINTS.RESULTS.value + "2010")
+    response_json = response.get_json()
+    assert len(response_json) == 50
+    assert response_json[0]['marathon_event']['year'] == 2010
+    assert response.status_code == 200
+
+
+def test_results_get_by_year_male(test_client):
+    """
+    GIVEN a GET request to /results/<year>/<sex>
+    WHEN api is called
+    THEN return results for that year
+    """
+    response = test_client.get(ENDPOINTS.RESULTS.value + "2010" + '/M')
+    response_json = response.get_json()
+    assert len(response_json) == 25
+    assert response.status_code == 200
+    assert response_json[0]['marathon_event']['year'] == 2010
+    assert response_json[0]['athlete']['gender'] == SEX.MALE.value
+
+
+def test_results_get_by_year_female(test_client):
+    """
+    GIVEN a GET request to /results/<year>/<sex>
+    WHEN api is called
+    THEN return results for that year
+    """
+    response = test_client.get(ENDPOINTS.RESULTS.value + "2010" + '/F')
+    response_json = response.get_json()
+    assert len(response_json) == 25
+    assert response.status_code == 200
+    assert response_json[0]['athlete']['gender'] == SEX.FEMALE.value

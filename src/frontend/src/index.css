@@ -172,4 +172,9 @@ body {
 }
 .main-header-bar a {
     color: black;
+    text-decoration: none;
+}
+
+.main-header-bar a:hover {
+    color: rgb(112, 111, 111);
 }

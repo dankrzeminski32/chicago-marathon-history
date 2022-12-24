@@ -14,19 +14,21 @@ import axios from "axios";
 export const LineFinishTimes = ({ marathon }) => {
     const [chartData, SetChartData] = useState({});
     const [haveData, setHaveData] = useState(false);
-    const [results, setResults] = useState([]);
+    const [maleResults, setMaleResults] = useState([]);
+    const [femaleResults, setFemaleResults] = useState([]);
     const [error, setError] = useState(null);
-    const [chartJson, setChartJson] = useState([]);
+    const [femaleChartJson, setFemaleChartJson] = useState([]);
+    const [maleChartJson, setMaleChartJson] = useState([]);
 
     useEffect(() => {
         axios({
             method: "GET",
-            url: "http://127.0.0.1:5000/api/results/" + marathon.year,
+            url: "http://127.0.0.1:5000/api/results/" + marathon.year + "/M",
         })
             .then((response) => {
-                setResults(response.data);
+                setMaleResults(response.data);
                 console.log(response.data);
-                setChartJson(
+                setMaleChartJson(
                     response.data.map((item) => {
                         const container = {};
                         container["x"] = item.place_overall;
@@ -40,8 +42,37 @@ export const LineFinishTimes = ({ marathon }) => {
                         return container;
                     })
                 );
-                console.log(chartJson);
-                console.log(results);
+                console.log(maleChartJson);
+                console.log(maleResults);
+                setError(null);
+            })
+            .catch(setError);
+    }, [marathon]);
+
+    useEffect(() => {
+        axios({
+            method: "GET",
+            url: "http://127.0.0.1:5000/api/results/" + marathon.year + "/F",
+        })
+            .then((response) => {
+                setFemaleResults(response.data);
+                console.log(response.data);
+                setFemaleChartJson(
+                    response.data.map((item) => {
+                        const container = {};
+                        container["x"] = item.place_overall;
+                        var hoursMinutes = item.finish_time.split(/[.:]/);
+                        var hours = parseInt(hoursMinutes[0], 10);
+                        var minutes = hoursMinutes[1]
+                            ? parseInt(hoursMinutes[1], 10)
+                            : 0;
+                        var finish_time_as_number = hours + minutes / 60;
+                        container["y"] = finish_time_as_number;
+                        return container;
+                    })
+                );
+                console.log(femaleChartJson);
+                console.log(femaleResults);
                 setError(null);
             })
             .catch(setError);
@@ -54,18 +85,31 @@ export const LineFinishTimes = ({ marathon }) => {
             labels: "A dataset",
             datasets: [
                 {
-                    data: chartJson,
-                    backgroundColor: ["skyblue", "pink"],
+                    data: maleChartJson,
+                    backgroundColor: ["skyblue"],
+                    label: "Top Male Finish Times",
+                },
+                {
+                    data: femaleChartJson,
+                    backgroundColor: ["pink"],
+                    label: "Top Female Finish Times",
                 },
             ],
         });
         setHaveData(true);
-    }, [marathon, chartJson, results]);
+    }, [
+        marathon,
+        femaleChartJson,
+        femaleChartJson,
+        maleChartJson,
+        maleResults,
+    ]);
 
     const options = {
-        scales: {
-            y: {
-                beginAtZero: true,
+        plugins: {
+            title: {
+                display: true,
+                text: "Top Finish Times for Men and Women",
             },
         },
     };

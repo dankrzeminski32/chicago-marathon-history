@@ -1,6 +1,7 @@
 from src.backend import init_app
 from config import DevConfig, TestConfig
 
+
 app = init_app(TestConfig)
 
 if __name__ == "__main__":

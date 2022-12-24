@@ -20,3 +20,4 @@ class ENDPOINTS(Enum):
 
 class ERROR_MESSAGES(Enum):
     INVALID_YEAR = "Invalid year, please try again."
+    INVALID_SEX_INPUT = "Sex must be either 'M' or 'F'"
