@@ -26,3 +26,4 @@ class AthleteSchema(Schema):
     first_name = fields.Str()
     last_name = fields.Str()
     gender = fields.Number()
+    country = fields.Str()
