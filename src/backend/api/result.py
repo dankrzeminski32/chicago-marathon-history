@@ -20,7 +20,7 @@ def get_results_by_year_and_sex(year, sex):
     try:
         all_results = ResultService.get_all_by_year(year, sex)
     except InvalidSexInput:
-        return jsonify({{"Error": ERROR_MESSAGES.INVALID_SEX_INPUT.value}})
+        return jsonify({"Error": ERROR_MESSAGES.INVALID_SEX_INPUT.value})
     if all_results is None:
         return jsonify({"Error": ERROR_MESSAGES.INVALID_YEAR.value})
     results = schema.dump(all_results)

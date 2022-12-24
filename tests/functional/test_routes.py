@@ -1,5 +1,4 @@
-from src.backend.constants import ENDPOINTS
-from src.backend.constants import SEX
+from src.backend.constants import ENDPOINTS, SEX, ERROR_MESSAGES
 import pytest
 
 """
@@ -113,7 +112,7 @@ def test_results_get_by_year_male(test_client):
     """
     GIVEN a GET request to /results/<year>/<sex>
     WHEN api is called
-    THEN return results for that year
+    THEN return male results for that year
     """
     response = test_client.get(ENDPOINTS.RESULTS.value + "2010" + '/M')
     response_json = response.get_json()
@@ -127,10 +126,32 @@ def test_results_get_by_year_female(test_client):
     """
     GIVEN a GET request to /results/<year>/<sex>
     WHEN api is called
-    THEN return results for that year
+    THEN return female results for that year
     """
     response = test_client.get(ENDPOINTS.RESULTS.value + "2010" + '/F')
     response_json = response.get_json()
     assert len(response_json) == 25
     assert response.status_code == 200
     assert response_json[0]['athlete']['gender'] == SEX.FEMALE.value
+
+def test_results_get_by_year_invalid_year(test_client):
+    """
+    GIVEN a GET request to /results/<year>/<sex>
+    WHEN api is called with invalid year
+    THEN return error message
+    """
+    response = test_client.get(ENDPOINTS.RESULTS.value + "2030" + '/F')
+    response_json = response.get_json()
+    assert response.status_code == 200
+    assert response_json['Error'] == ERROR_MESSAGES.INVALID_YEAR.value
+
+def test_results_get_by_year_invalid_sex(test_client):
+    """
+    GIVEN a GET request to /results/<year>/<sex>
+    WHEN api is called with invalid sex
+    THEN return error message
+    """
+    response = test_client.get(ENDPOINTS.RESULTS.value + "2010" + '/W')
+    response_json = response.get_json()
+    assert response.status_code == 200
+    assert response_json['Error'] == ERROR_MESSAGES.INVALID_SEX_INPUT.value

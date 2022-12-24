@@ -11,6 +11,7 @@ class MarathonEventService(object):
 
     @staticmethod
     def get_by_year(year: int) -> MarathonEvent | None:
+        """Gets a single MarathonEvent for a given year"""
         try:
             marathon = MarathonEvent.query.filter_by(year=year).one()
             return marathon

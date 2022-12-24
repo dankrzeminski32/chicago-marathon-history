@@ -12,6 +12,7 @@ class AthleteService(object):
 
     @staticmethod
     def get_all_by_year(year: int) -> list[Athlete] | None:
+        """Gets a list of all athletes for a given year"""
         marathon = MarathonEventService.get_by_year(year)
         if marathon:
             return marathon.athletes
