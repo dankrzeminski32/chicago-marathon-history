@@ -153,10 +153,12 @@ body {
 }
 
 #selected-container {
-    height: 80vh;
+    position: relative;
     padding: 4rem;
     margin-top: 3rem;
     background-color: rgba(197, 197, 197, 0.089);
+    margin-left: 350px;
+    width: 70vw;
 }
 
 .main-header-bar {
@@ -165,6 +167,7 @@ body {
     background-size: cover;
     background-position: 40% 60%;
     color: black;
+    margin-left: 250px;
 }
 
 .main-header-bar span {
@@ -177,4 +180,14 @@ body {
 
 .main-header-bar a:hover {
     color: rgb(112, 111, 111);
+}
+
+@media (max-width: 768px) {
+    #selected-container {
+        margin-left: 50px;
+        width: 95vw;
+    }
+    .main-header-bar {
+        margin-left: 0;
+    }
 }

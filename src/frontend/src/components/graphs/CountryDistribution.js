@@ -5,7 +5,6 @@ import axios from "axios";
 
 export const CountryDistribution = ({ marathon }) => {
     const [chartData, SetChartData] = useState({});
-    const [chartOptions, SetChartOptions] = useState({});
     const [haveData, setHaveData] = useState(false);
 
     Chart.register(...registerables);
@@ -15,38 +14,46 @@ export const CountryDistribution = ({ marathon }) => {
             method: "GET",
             url: "http://127.0.0.1:5000/api/results/" + marathon.year + "/M",
         }).then((response) => {
-            const labels = [...new Set(response.data.map((item) => {}))];
+            const labels = [
+                ...new Set(response.data.map((item) => item.athlete.country)),
+            ];
+            console.log(labels);
+            const count = labels.map((item) => {
+                const countryCount = response.data.reduce(
+                    (acc, cur) => (cur.athlete.country === item ? ++acc : acc),
+                    0
+                );
+                return countryCount;
+            });
+            console.log(count);
             SetChartData({
                 labels: labels,
                 datasets: [
                     {
-                        data: [
-                            marathon.num_athletes_male,
-                            marathon.num_athletes_female,
+                        label: "Total Runners",
+                        data: count,
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 0.2)",
+                            "rgba(54, 162, 235, 0.2)",
+                            "rgba(255, 206, 86, 0.2)",
+                            "rgba(75, 192, 192, 0.2)",
+                            "rgba(153, 102, 255, 0.2)",
+                            "rgba(255, 159, 64, 0.2)",
                         ],
-                        backgroundColor: ["skyblue", "pink"],
+                        borderColor: [
+                            "rgba(255, 99, 132, 1)",
+                            "rgba(54, 162, 235, 1)",
+                            "rgba(255, 206, 86, 1)",
+                            "rgba(75, 192, 192, 1)",
+                            "rgba(153, 102, 255, 1)",
+                            "rgba(255, 159, 64, 1)",
+                        ],
+                        borderWidth: 1,
                     },
                 ],
             });
             setHaveData(true);
         });
-    }, [marathon]);
-
-    useEffect(() => {
-        SetChartOptions({
-            responsive: true,
-            plugins: {
-                legend: { display: false },
-                title: {
-                    display: true,
-                    text:
-                        "Athlete Distribution --- " +
-                        marathon.num_athletes +
-                        " Total Athletes",
-                },
-            },
-        });
-        setHaveData(true);
     }, [marathon]);
 
     if (!haveData) {
@@ -55,7 +62,18 @@ export const CountryDistribution = ({ marathon }) => {
     }
     return (
         <div>
-            <Bar options={chartOptions} data={chartData} />
+            <Pie
+                data={chartData}
+                width={"300px"}
+                height={"300px"}
+                options={{
+                    maintainAspectRatio: false,
+                    responsive: false,
+                    plugins: {
+                        title: { display: true, text: "Country Distribution" },
+                    },
+                }}
+            />
         </div>
     );
 };
