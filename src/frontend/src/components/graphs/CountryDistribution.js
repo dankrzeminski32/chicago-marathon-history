@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import axios from "axios";
@@ -16,8 +15,9 @@ export const CountryDistribution = ({ marathon }) => {
             method: "GET",
             url: "http://127.0.0.1:5000/api/results/" + marathon.year + "/M",
         }).then((response) => {
+            const labels = [...new Set(response.data.map((item) => {}))];
             SetChartData({
-                labels: ["Males", "Females"],
+                labels: labels,
                 datasets: [
                     {
                         data: [
