@@ -184,8 +184,8 @@ body {
 
 @media (max-width: 768px) {
     #selected-container {
-        margin-left: 50px;
-        width: 95vw;
+        width: 100vw;
+        margin-left: 0px;
     }
     .main-header-bar {
         margin-left: 0;

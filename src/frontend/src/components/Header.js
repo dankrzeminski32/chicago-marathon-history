@@ -3,7 +3,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 
-function Header({ marathon }) {
+function Header({ marathon, isYearSelected, onShow }) {
     return (
         <Navbar className="main-header-bar" bg="light" expand="lg">
             <Container>
@@ -17,7 +17,16 @@ function Header({ marathon }) {
                         <Nav.Link href="#home">
                             <Link to="/">Home</Link>
                         </Nav.Link>
-                        <Nav.Link href="#link">About</Nav.Link>
+                        <Nav.Link href="">About</Nav.Link>
+                        {isYearSelected ? (
+                            <Nav.Link
+                                onClick={onShow}
+                                id="changeYearLink"
+                                href=""
+                            >
+                                Change Year
+                            </Nav.Link>
+                        ) : null}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

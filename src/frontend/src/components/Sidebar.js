@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function Sidebar() {
+function Sidebar({ isYearSelected, onHide, marathonStateChanger }) {
     const [marathons, setMarathons] = useState([]);
     const [error, setError] = useState(null);
 
@@ -30,8 +30,10 @@ function Sidebar() {
                     return (
                         <li key={marathon.id} className="sidebar-brand">
                             <Link
-                                to={`/marathon/${marathon.year}`}
-                                state={{ marathon }}
+                                onClick={() => {
+                                    onHide();
+                                    marathonStateChanger(marathon);
+                                }}
                             >
                                 {marathon.year}
                             </Link>
