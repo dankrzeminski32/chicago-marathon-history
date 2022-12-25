@@ -3,16 +3,13 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import React from "react";
 
-function TopFinishers() {
+function TopFinishers({ marathon }) {
     return (
         <Container id="selected-container">
             <Row className="h-50">
-                <Col sm={6}>TOP FINISHERS YAY=6 - </Col>
-                <Col sm={6}>sm=6</Col>
-            </Row>
-            <Row className="h-50">
-                <Col sm={6}>sm=6</Col>
-                <Col sm={6}>sm=6</Col>
+                <Col sm={4}>sm=6</Col>
+                <Col sm={4}>sm=6</Col>
+                <Col sm={4}>sm=6</Col>
             </Row>
         </Container>
     );
