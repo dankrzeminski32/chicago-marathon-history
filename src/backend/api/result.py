@@ -14,11 +14,12 @@ def get_results_by_year(year):
     results = schema.dump(all_results)
     return jsonify(results)
 
-@result_api_bp.route("/<int:year>/<string:sex>", methods=["GET"])
-def get_results_by_year_and_sex(year, sex):
+@result_api_bp.route("/<int:year>/<string:sex>/<int:limit>", methods=["GET"])
+@result_api_bp.route("/<int:year>/<string:sex>", defaults={'limit': None} ,methods=["GET"])
+def get_results_by_year_and_sex(year, sex, limit):
     schema = ResultSchema(many=True)
     try:
-        all_results = ResultService.get_all_by_year(year, sex)
+        all_results = ResultService.get_all_by_year(year, sex, limit)
     except InvalidSexInput:
         return jsonify({"Error": ERROR_MESSAGES.INVALID_SEX_INPUT.value})
     if all_results is None:
