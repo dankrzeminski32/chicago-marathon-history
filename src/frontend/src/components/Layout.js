@@ -20,13 +20,18 @@ function Layout({ children }) {
         <div className="App">
             <Sidebar
                 isYearSelected={isYearSelected}
-                onHide={() => setIsYearSelected(true)}
+                onHide={() => {
+                    setIsYearSelected(true);
+                }}
                 marathonStateChanger={setMarathon}
             ></Sidebar>
             <Header
                 marathon={marathon}
                 isYearSelected={isYearSelected}
-                onShow={() => setIsYearSelected(false)}
+                onShow={() => {
+                    setIsYearSelected(false);
+                    setMarathon(null);
+                }}
             ></Header>
             {isYearSelected ? (
                 <FilterNavbar selected={selected} setSelected={setSelected} />

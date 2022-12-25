@@ -10,17 +10,17 @@ function Overview({ marathon }) {
     return (
         <Container id="selected-container" className="overflow-hidden">
             <Row className="gy-5">
-                <Col sm={12} xl={6}>
+                <Col sm={12} xl={8}>
                     <BarMaleFemaleParticipants marathon={marathon} />
-                </Col>
-                <Col sm={12} xl={6}>
-                    <LineFinishTimes marathon={marathon} />
                 </Col>
                 <Col sm={12} xl={4}>
                     <CountryDistribution marathon={marathon} />
                 </Col>
-                <Col sm={12} xl={8}>
-                    sm=6
+                <Col sm={12} xl={6}>
+                    <LineFinishTimes gender="male" marathon={marathon} />
+                </Col>
+                <Col sm={12} xl={6}>
+                    <LineFinishTimes gender="female" marathon={marathon} />
                 </Col>
             </Row>
         </Container>

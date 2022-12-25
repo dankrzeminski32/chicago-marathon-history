@@ -20,29 +20,31 @@ function Sidebar({ isYearSelected, onHide, marathonStateChanger }) {
 
     if (error) return <p>an error occured</p>;
 
-    return (
-        <div id="sidebar-wrapper">
-            <ul className="sidebar-nav">
-                <li className="sidebar-brand">
-                    <Link to="/">Years</Link>
-                </li>
-                {marathons.map((marathon) => {
-                    return (
-                        <li key={marathon.id} className="sidebar-brand">
-                            <Link
-                                onClick={() => {
-                                    onHide();
-                                    marathonStateChanger(marathon);
-                                }}
-                            >
-                                {marathon.year}
-                            </Link>
-                        </li>
-                    );
-                })}
-            </ul>
-        </div>
-    );
+    if (isYearSelected) return <></>;
+    else
+        return (
+            <div id="sidebar-wrapper">
+                <ul className="sidebar-nav">
+                    <li className="sidebar-brand">
+                        <Link to="/">Years</Link>
+                    </li>
+                    {marathons.map((marathon) => {
+                        return (
+                            <li key={marathon.id} className="sidebar-brand">
+                                <Link
+                                    onClick={() => {
+                                        onHide();
+                                        marathonStateChanger(marathon);
+                                    }}
+                                >
+                                    {marathon.year}
+                                </Link>
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        );
 }
 
 export default Sidebar;
