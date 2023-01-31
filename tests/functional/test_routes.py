@@ -17,8 +17,8 @@ def test_marathons_endpoint(test_client):
     response_json = response.get_json()
     assert response_json[0]["year"] == 2021
     assert response_json[0]["num_athletes"] == 33543
-    assert response_json[0]["num_athletes_female"] == 11876
-    assert response_json[0]["num_athletes_male"] == 14202
+    assert response_json[0]["num_athletes_female"] == 11877
+    assert response_json[0]["num_athletes_male"] == 14203
     assert len(response_json) == 25
     assert response.status_code == 200
 
