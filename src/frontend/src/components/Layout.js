@@ -35,10 +35,18 @@ function Layout({ children }) {
                             setSidebarVisibleOnSmallScreen(false);
                         }}
                         marathonStateChanger={setMarathon}
-                        isSidebarVisible={isSidebarVisibleOnSmallScreen}
+                        isSidebarVisibleOnSmallScreen={
+                            isSidebarVisibleOnSmallScreen
+                        }
                     ></Sidebar>
                 </div>
-                <div className="col-12 col-md-10 g-0">
+                <div
+                    className={
+                        isSidebarVisibleOnSmallScreen
+                            ? "d-none"
+                            : "col-12 col-md-10 g-0"
+                    }
+                >
                     <Header
                         marathon={marathon}
                         isYearSelected={isYearSelected}

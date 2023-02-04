@@ -1,3 +1,3 @@
 """
-Module used to scrape wikipediaw for our top finishers images
+Module used to scrape wikipedia for our top finishers images
 """

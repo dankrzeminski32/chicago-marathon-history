@@ -28,15 +28,13 @@ function Sidebar({
         <div
             id="sidebar-wrapper"
             className={
-                isSidebarVisibleOnSmallScreen
-                    ? "d-md-block"
-                    : "d-none d-md-block"
+                isSidebarVisibleOnSmallScreen ? "d-block" : "d-none d-md-block"
             }
         >
             <ul
                 className={`sidebar-nav ${
                     isSidebarVisibleOnSmallScreen
-                        ? "d-md-block"
+                        ? "d-block"
                         : "d-none d-md-block"
                 }`}
             >
