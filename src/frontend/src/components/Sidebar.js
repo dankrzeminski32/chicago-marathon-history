@@ -36,6 +36,7 @@ function Sidebar({ isYearSelected, onHide, marathonStateChanger }) {
                                         onHide();
                                         marathonStateChanger(marathon);
                                     }}
+                                    to="/"
                                 >
                                     {marathon.year}
                                 </Link>
