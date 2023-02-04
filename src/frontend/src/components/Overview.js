@@ -8,8 +8,8 @@ import { CountryDistribution } from "./graphs/CountryDistribution";
 
 function Overview({ marathon }) {
     return (
-        <Container id="selected-container" className="overflow-hidden">
-            <Row className="gy-5">
+        <Container fluid id="selected-container" className="overflow-hidden">
+            <Row>
                 <Col sm={12} xl={8}>
                     <BarMaleFemaleParticipants marathon={marathon} />
                 </Col>

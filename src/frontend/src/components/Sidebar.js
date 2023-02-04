@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-function Sidebar({ isYearSelected, onHide, marathonStateChanger }) {
+function Sidebar({
+    onHide,
+    marathonStateChanger,
+    isSidebarVisibleOnSmallScreen,
+}) {
     const [marathons, setMarathons] = useState([]);
     const [error, setError] = useState(null);
 
@@ -20,32 +24,43 @@ function Sidebar({ isYearSelected, onHide, marathonStateChanger }) {
 
     if (error) return <p>an error occured</p>;
 
-    if (isYearSelected) return <></>;
-    else
-        return (
-            <div id="sidebar-wrapper">
-                <ul className="sidebar-nav">
-                    <li className="sidebar-brand">
-                        <Link to="/">Years</Link>
-                    </li>
-                    {marathons.map((marathon) => {
-                        return (
-                            <li key={marathon.id} className="sidebar-brand">
-                                <Link
-                                    onClick={() => {
-                                        onHide();
-                                        marathonStateChanger(marathon);
-                                    }}
-                                    to="/"
-                                >
-                                    {marathon.year}
-                                </Link>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
-        );
+    return (
+        <div
+            id="sidebar-wrapper"
+            className={
+                isSidebarVisibleOnSmallScreen
+                    ? "d-md-block"
+                    : "d-none d-md-block"
+            }
+        >
+            <ul
+                className={`sidebar-nav ${
+                    isSidebarVisibleOnSmallScreen
+                        ? "d-md-block"
+                        : "d-none d-md-block"
+                }`}
+            >
+                <li className="sidebar-brand">
+                    <Link to="/">Years</Link>
+                </li>
+                {marathons.map((marathon) => {
+                    return (
+                        <li key={marathon.id} className="sidebar-brand">
+                            <Link
+                                onClick={() => {
+                                    onHide();
+                                    marathonStateChanger(marathon);
+                                }}
+                                to="/"
+                            >
+                                {marathon.year}
+                            </Link>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    );
 }
 
 export default Sidebar;
