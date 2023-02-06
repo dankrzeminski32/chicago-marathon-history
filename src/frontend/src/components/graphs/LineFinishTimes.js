@@ -34,10 +34,13 @@ export const LineFinishTimes = ({ marathon, gender }) => {
                         container["x"] = item.place_overall;
                         var hoursMinutes = item.finish_time.split(/[.:]/);
                         var hours = parseInt(hoursMinutes[0], 10);
+                        var seconds = parseInt(hoursMinutes[2], 10) / 10000;
+                        console.log(hoursMinutes);
                         var minutes = hoursMinutes[1]
-                            ? parseInt(hoursMinutes[1], 10)
+                            ? parseInt(hoursMinutes[1], 10) / 100
                             : 0;
-                        var finish_time_as_number = hours + minutes / 60;
+                        var finish_time_as_number = hours + minutes + seconds;
+                        console.log("PLACE:" + finish_time_as_number);
                         container["y"] = finish_time_as_number;
                         return container;
                     })
@@ -63,10 +66,12 @@ export const LineFinishTimes = ({ marathon, gender }) => {
                         container["x"] = item.place_gender;
                         var hoursMinutes = item.finish_time.split(/[.:]/);
                         var hours = parseInt(hoursMinutes[0], 10);
+                        var seconds = parseInt(hoursMinutes[2], 10) / 10000;
+                        console.log(hoursMinutes);
                         var minutes = hoursMinutes[1]
-                            ? parseInt(hoursMinutes[1], 10)
+                            ? parseInt(hoursMinutes[1], 10) / 100
                             : 0;
-                        var finish_time_as_number = hours + minutes / 60;
+                        var finish_time_as_number = hours + minutes + seconds;
                         container["y"] = finish_time_as_number;
                         return container;
                     })
