@@ -27,14 +27,14 @@ function FilterNavbar({ selected, setSelected }) {
                         id="tbg-radio-2"
                         value={2}
                     >
-                        Top Finishers
+                        Top Finishers - Male
                     </ToggleButton>
                     <ToggleButton
                         variant="secondary"
                         id="tbg-radio-3"
                         value={3}
                     >
-                        Participant Data
+                        Top Finishers - Female
                     </ToggleButton>
                 </ToggleButtonGroup>
             </Container>
