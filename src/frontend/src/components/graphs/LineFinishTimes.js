@@ -62,6 +62,7 @@ export const LineFinishTimes = ({ marathon, gender }) => {
                 console.log(response.data);
                 setFemaleChartJson(
                     response.data.map((item) => {
+                        // TODO - CONVERT TO HOURS, curr its H.Mins
                         const container = {};
                         container["x"] = item.place_gender;
                         var hoursMinutes = item.finish_time.split(/[.:]/);
