@@ -36,12 +36,13 @@ function TopFinishers({ marathon, gender }) {
 
     return (
         <Container id="selected-container">
-            <Row className="h-50">
-                {topFinishers.length > 0 &&
-                    topFinishers.map((finisher) => (
-                        <Col sm={4}>{finisher.finish_time}</Col>
-                    ))}
-            </Row>
+            {topFinishers.length > 0 && (
+                <Row className="h-50">
+                    <Col sm={4}>{topFinishers[1].finish_time}</Col>
+                    <Col sm={4}>{topFinishers[0].finish_time}</Col>
+                    <Col sm={4}>{topFinishers[2].finish_time}</Col>
+                </Row>
+            )}
         </Container>
     );
 }
