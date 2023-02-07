@@ -62,7 +62,7 @@ def test_athletes_endpoint(test_client):
     response = test_client.get(ENDPOINTS.ATHLETES.value)
     response_json = response.get_json()
     assert response_json[0]["gender"] == 1
-    assert response_json[0]["first_name"] == "Tura Abdiwak"
+    assert response_json[0]["first_name"] == "Seifu"
     assert response_json[0]["id"] == 1
     assert len(response_json) == 1250
     assert response.status_code == 200
@@ -76,7 +76,7 @@ def test_athletes_get_by_year_endpoint(test_client):
     """
     response = test_client.get(ENDPOINTS.ATHLETES.value + "2018")
     response_json = response.get_json()
-    assert response_json[0]["first_name"] == "Farah"
+    assert response_json[0]["first_name"] == "Mo"
     assert response_json[0]["gender"] == 1
     assert len(response_json) == 50
     assert response.status_code == 200

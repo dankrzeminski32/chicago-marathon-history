@@ -209,10 +209,10 @@ class HistoryAthleteScraper:
                     8:
                 ]  # age group
                 first_and_last_name = name.split(', ')
-                first_name = first_and_last_name[0]
+                last_name = first_and_last_name[0]
                 last_name_and_country = first_and_last_name[1].split(' (')
                 print(last_name_and_country)
-                last_name = last_name_and_country[0]
+                first_name = last_name_and_country[0]
                 if len(last_name_and_country) > 1:
                     country = last_name_and_country[1][:-1]
                 else:
