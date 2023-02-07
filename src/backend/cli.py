@@ -3,6 +3,7 @@ from src.backend import db
 from src.backend.scrapers import history
 from src.backend import seeder
 from src.backend.services.result_service import ResultService
+from src.backend.topfinisher_images import TopFinisherImageRetriever
 
 db_commands_bp = Blueprint("db", __name__)
 
@@ -39,3 +40,8 @@ def seedsample():
 def recreate():
     db.drop_all()
     db.create_all()
+
+@db_commands_bp.cli.command("seed-athlete-images")
+def seedAthleteImages():
+    TopFinisherImageRetriever.get_images()
+    

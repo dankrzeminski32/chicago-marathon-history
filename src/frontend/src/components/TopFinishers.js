@@ -45,7 +45,12 @@ function TopFinishers({ marathon, gender }) {
                             <Card.Header>1st Place</Card.Header>
                             <Card.Img
                                 variant="top"
-                                src="/defaultathletepic.jpg"
+                                src={
+                                    topFinishers[1]["athlete"].img !== null
+                                        ? "https://" +
+                                          topFinishers[1]["athlete"].img
+                                        : "/defaultathletepic.jpg"
+                                }
                             />
                             <Card.Body>
                                 <Card.Title>
@@ -66,9 +71,9 @@ function TopFinishers({ marathon, gender }) {
                                     {"Age Group: " + topFinishers[1].age_group}
                                 </ListGroup.Item>
                             </ListGroup>
-                            <Card.Body>
+                            {/* <Card.Body>
                                 <Card.Link href="#">Card Link</Card.Link>
-                            </Card.Body>
+                            </Card.Body> */}
                         </Card>{" "}
                     </Col>
                     <Col className="topFinisherCard" sm={4}>
@@ -76,7 +81,12 @@ function TopFinishers({ marathon, gender }) {
                             <Card.Header>1st Place</Card.Header>
                             <Card.Img
                                 variant="top"
-                                src="/defaultathletepic.jpg"
+                                src={
+                                    topFinishers[0]["athlete"].img !== null
+                                        ? "https://" +
+                                          topFinishers[0]["athlete"].img
+                                        : "/defaultathletepic.jpg"
+                                }
                             />
                             <Card.Body>
                                 <Card.Title>
@@ -97,9 +107,9 @@ function TopFinishers({ marathon, gender }) {
                                     {"Age Group: " + topFinishers[0].age_group}
                                 </ListGroup.Item>
                             </ListGroup>
-                            <Card.Body>
+                            {/* <Card.Body>
                                 <Card.Link href="#">Card Link</Card.Link>
-                            </Card.Body>
+                            </Card.Body> */}
                         </Card>{" "}
                     </Col>
                     <Col className="topFinisherCard" sm={4}>
@@ -107,7 +117,12 @@ function TopFinishers({ marathon, gender }) {
                             <Card.Header>1st Place</Card.Header>
                             <Card.Img
                                 variant="top"
-                                src="/defaultathletepic.jpg"
+                                src={
+                                    topFinishers[2]["athlete"].img !== null
+                                        ? "https://" +
+                                          topFinishers[2]["athlete"].img
+                                        : "/defaultathletepic.jpg"
+                                }
                             />
                             <Card.Body>
                                 <Card.Title>
@@ -128,9 +143,9 @@ function TopFinishers({ marathon, gender }) {
                                     {"Age Group: " + topFinishers[2].age_group}
                                 </ListGroup.Item>
                             </ListGroup>
-                            <Card.Body>
+                            {/* <Card.Body>
                                 <Card.Link href="#">Card Link</Card.Link>
-                            </Card.Body>
+                            </Card.Body> */}
                         </Card>{" "}
                     </Col>
                 </Row>
