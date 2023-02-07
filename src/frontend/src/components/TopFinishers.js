@@ -4,6 +4,8 @@ import Container from "react-bootstrap/Container";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/ListGroup";
 
 function TopFinishers({ marathon, gender }) {
     const [error, setError] = useState(null);
@@ -38,9 +40,99 @@ function TopFinishers({ marathon, gender }) {
         <Container id="selected-container">
             {topFinishers.length > 0 && (
                 <Row className="h-50">
-                    <Col sm={4}>{topFinishers[1].finish_time}</Col>
-                    <Col sm={4}>{topFinishers[0].finish_time}</Col>
-                    <Col sm={4}>{topFinishers[2].finish_time}</Col>
+                    <Col className="topFinisherCard" sm={4}>
+                        <Card style={{ width: "18rem" }}>
+                            <Card.Header>1st Place</Card.Header>
+                            <Card.Img
+                                variant="top"
+                                src="/defaultathletepic.jpg"
+                            />
+                            <Card.Body>
+                                <Card.Title>
+                                    {topFinishers[1].finish_time}
+                                </Card.Title>
+                            </Card.Body>
+                            <ListGroup className="list-group-flush">
+                                <ListGroup.Item>
+                                    {topFinishers[1]["athlete"].first_name +
+                                        " " +
+                                        topFinishers[1]["athlete"].last_name}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    {"Country: " +
+                                        topFinishers[1]["athlete"].country}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    {"Age Group: " + topFinishers[1].age_group}
+                                </ListGroup.Item>
+                            </ListGroup>
+                            <Card.Body>
+                                <Card.Link href="#">Card Link</Card.Link>
+                            </Card.Body>
+                        </Card>{" "}
+                    </Col>
+                    <Col className="topFinisherCard" sm={4}>
+                        <Card style={{ width: "18rem" }}>
+                            <Card.Header>1st Place</Card.Header>
+                            <Card.Img
+                                variant="top"
+                                src="/defaultathletepic.jpg"
+                            />
+                            <Card.Body>
+                                <Card.Title>
+                                    {topFinishers[0].finish_time}
+                                </Card.Title>
+                            </Card.Body>
+                            <ListGroup className="list-group-flush">
+                                <ListGroup.Item>
+                                    {topFinishers[0]["athlete"].first_name +
+                                        " " +
+                                        topFinishers[0]["athlete"].last_name}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    {"Country: " +
+                                        topFinishers[0]["athlete"].country}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    {"Age Group: " + topFinishers[0].age_group}
+                                </ListGroup.Item>
+                            </ListGroup>
+                            <Card.Body>
+                                <Card.Link href="#">Card Link</Card.Link>
+                            </Card.Body>
+                        </Card>{" "}
+                    </Col>
+                    <Col className="topFinisherCard" sm={4}>
+                        <Card style={{ width: "18rem" }}>
+                            <Card.Header>1st Place</Card.Header>
+                            <Card.Img
+                                variant="top"
+                                src="/defaultathletepic.jpg"
+                            />
+                            <Card.Body>
+                                <Card.Title>
+                                    {topFinishers[2].finish_time}
+                                </Card.Title>
+                            </Card.Body>
+                            <ListGroup className="list-group-flush">
+                                <ListGroup.Item>
+                                    {topFinishers[2]["athlete"].first_name +
+                                        " " +
+                                        topFinishers[2]["athlete"].last_name}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    {"Country: " +
+                                        topFinishers[2]["athlete"].country}
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    {"Age Group: " + topFinishers[2].age_group}
+                                </ListGroup.Item>
+                            </ListGroup>
+                            <Card.Body>
+                                <Card.Link href="#">Card Link</Card.Link>
+                            </Card.Body>
+                        </Card>{" "}
+                    </Col>
                 </Row>
             )}
         </Container>
