@@ -42,7 +42,7 @@ function TopFinishers({ marathon, gender }) {
                 <Row className="h-50">
                     <Col className="topFinisherCard" sm={4}>
                         <Card style={{ width: "18rem" }}>
-                            <Card.Header>1st Place</Card.Header>
+                            <Card.Header>2nd Place</Card.Header>
                             <Card.Img
                                 variant="top"
                                 src={
@@ -114,7 +114,7 @@ function TopFinishers({ marathon, gender }) {
                     </Col>
                     <Col className="topFinisherCard" sm={4}>
                         <Card style={{ width: "18rem" }}>
-                            <Card.Header>1st Place</Card.Header>
+                            <Card.Header>3rd Place</Card.Header>
                             <Card.Img
                                 variant="top"
                                 src={

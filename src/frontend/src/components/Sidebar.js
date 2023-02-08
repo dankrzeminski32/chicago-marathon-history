@@ -9,6 +9,19 @@ function Sidebar({
 }) {
     const [marathons, setMarathons] = useState([]);
     const [error, setError] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(null);
+
+    const handleClick = (event) => {
+        if (event.target.classList.contains("sidebar-item")) {
+            var sidebarItemsLinks =
+                document.getElementsByClassName("sidebar-item");
+            console.log(sidebarItemsLinks);
+            for (var j = 0; j < sidebarItemsLinks.length; j++) {
+                sidebarItemsLinks[j].style.backgroundColor = "";
+            }
+            event.target.style.backgroundColor = "#585858";
+        }
+    };
 
     useEffect(() => {
         axios({
@@ -43,12 +56,17 @@ function Sidebar({
                 </li>
                 {marathons.map((marathon) => {
                     return (
-                        <li key={marathon.id} className="sidebar-brand">
+                        <li
+                            key={marathon.id}
+                            className="sidebar-brand"
+                            onClick={handleClick}
+                        >
                             <Link
                                 onClick={() => {
                                     onHide();
                                     marathonStateChanger(marathon);
                                 }}
+                                className="sidebar-item"
                                 to="/"
                             >
                                 {marathon.year}

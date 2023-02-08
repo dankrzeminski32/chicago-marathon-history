@@ -4,6 +4,13 @@ import Navbar from "react-bootstrap/Navbar";
 import { Link } from "react-router-dom";
 
 function Header({ marathon, isYearSelected, onShow, onGoHome }) {
+    const removeHighlightedSidebar = () => {
+        var sidebarItemsLinks = document.getElementsByClassName("sidebar-item");
+        console.log(sidebarItemsLinks);
+        for (var j = 0; j < sidebarItemsLinks.length; j++) {
+            sidebarItemsLinks[j].style.backgroundColor = "";
+        }
+    };
     return (
         <Navbar
             collapseOnSelect
@@ -20,7 +27,13 @@ function Header({ marathon, isYearSelected, onShow, onGoHome }) {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link eventKey="1" href="">
-                            <Link onClick={onGoHome} to="/">
+                            <Link
+                                onClick={() => {
+                                    onGoHome();
+                                    removeHighlightedSidebar();
+                                }}
+                                to="/"
+                            >
                                 Home
                             </Link>
                         </Nav.Link>
