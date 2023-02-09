@@ -1,9 +1,9 @@
 from flask import Blueprint
-from src.backend import db
-from src.backend.scrapers import history
-from src.backend import seeder
-from src.backend.services.result_service import ResultService
-from src.backend.topfinisher_images import TopFinisherImageRetriever
+from src import db
+from src.scrapers import history
+from src import seeder
+from src.services.result_service import ResultService
+from src.topfinisher_images import TopFinisherImageRetriever
 
 db_commands_bp = Blueprint("db", __name__)
 

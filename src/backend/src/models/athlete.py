@@ -1,5 +1,5 @@
-from src.backend import db
-from src.backend.constants import SEX
+from src import db
+from src.constants import SEX
 from marshmallow import Schema, fields
 
 

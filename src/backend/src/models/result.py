@@ -1,7 +1,7 @@
-from src.backend import db
+from src import db
 from marshmallow import Schema, fields
-from src.backend.models.athlete import AthleteSchema
-from src.backend.models.marathon import MarathonSchema
+from src.models.athlete import AthleteSchema
+from src.models.marathon import MarathonSchema
 
 
 class Result(db.Model):
