@@ -22,5 +22,21 @@ services:
             - POSTGRES_PASSWORD=testpass
             - POSTGRES_DB=chimarathontest
 
+    frontend:
+        build:
+            context: ./src/frontend/
+            dockerfile: frontend.Dockerfile
+        command: ["npm", "start"]
+        volumes:
+            - ./src/frontend:/frontend
+            - node-modules:/frontend/node_modules
+        environment:
+            - NODE_ENV=development
+        ports:
+            - "3000:3000"
+        depends_on:
+            - backend
+
 volumes:
     postgres_data:
+    node-modules:
