@@ -1,6 +1,6 @@
 import pytest
-from src.backend import init_app
-from backend.config import TestConfig
+from src import init_app
+from config import TestConfig
 
 
 @pytest.fixture(scope="module")

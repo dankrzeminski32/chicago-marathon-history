@@ -4,7 +4,7 @@ services:
     backend:
         build:
             context: ./src/backend/
-            dockerfile: Dockerfile
+            dockerfile: backend.Dockerfile
         volumes:
             - ./src/backend:/usr/src/app
         ports:
