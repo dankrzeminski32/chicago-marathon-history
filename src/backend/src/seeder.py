@@ -1,5 +1,5 @@
 from typing import Any
-from src.backend import db
+from src import db
 
 
 class Seeder:

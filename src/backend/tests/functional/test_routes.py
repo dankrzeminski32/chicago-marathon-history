@@ -1,4 +1,4 @@
-from src.backend.constants import ENDPOINTS, SEX, ERROR_MESSAGES
+from src.constants import ENDPOINTS, SEX, ERROR_MESSAGES
 import pytest
 
 """

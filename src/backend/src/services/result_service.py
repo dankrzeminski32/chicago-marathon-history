@@ -1,6 +1,6 @@
-from src.backend.models.result import Result
-from src.backend.services.marathon_service import MarathonEventService
-from src.backend.constants import SEX
+from src.models.result import Result
+from src.services.marathon_service import MarathonEventService
+from src.constants import SEX
 
 
 class ResultService(object):

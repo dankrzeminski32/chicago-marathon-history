@@ -1,5 +1,5 @@
-from src.backend.models.athlete import Athlete
-from src.backend.services.marathon_service import MarathonEventService
+from src.models.athlete import Athlete
+from src.services.marathon_service import MarathonEventService
 
 
 class AthleteService(object):

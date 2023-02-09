@@ -1,6 +1,6 @@
-from src.backend.models.marathon import MarathonEvent
-from src.backend.models.athlete import Athlete
-from src.backend.constants import SEX
+from src.models.marathon import MarathonEvent
+from src.models.athlete import Athlete
+from src.constants import SEX
 
 
 def test_new_marathon():

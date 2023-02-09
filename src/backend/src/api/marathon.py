@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
-from src.backend.services.marathon_service import MarathonEventService
-from src.backend.models.marathon import MarathonSchema
-from src.backend.constants import ENDPOINTS, ERROR_MESSAGES
+from src.services.marathon_service import MarathonEventService
+from src.models.marathon import MarathonSchema
+from src.constants import ENDPOINTS, ERROR_MESSAGES
 
 marathon_api_bp = Blueprint(
     "marathon_api", __name__, url_prefix=ENDPOINTS.MARATHONS.value
