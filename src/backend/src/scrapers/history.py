@@ -142,26 +142,15 @@ class HistoryAthleteScraper:
 
         for marathon in self.marathons:
             num_pages_male = self._get_num_of_pages(marathon.num_athletes_male)
-            print(num_pages_male)
             male_data = self._get_athletes_and_results(
                 marathon, "M", num_pages_male, sample
             )
-            print(male_data)
             all_marathon_data.append(male_data)
             num_pages_female = self._get_num_of_pages(marathon.num_athletes_female)
-            print(num_pages_female)
             female_data = self._get_athletes_and_results(
                 marathon, "W", num_pages_female, sample
             )
             all_marathon_data.append(female_data)
-            print(
-                "ALL MARATHON SIZE: ",
-                len(all_marathon_data[0]),
-                "and ",
-                len(all_marathon_data[1]),
-            )
-            print(f"FINISHED YEAR {marathon.year}")
-
         return all_marathon_data
 
     def _get_num_of_pages(self, num_athletes: int) -> int:
@@ -211,7 +200,6 @@ class HistoryAthleteScraper:
                 first_and_last_name = name.split(', ')
                 last_name = first_and_last_name[0]
                 last_name_and_country = first_and_last_name[1].split(' (')
-                print(last_name_and_country)
                 first_name = last_name_and_country[0]
                 if len(last_name_and_country) > 1:
                     country = last_name_and_country[1][:-1]
@@ -241,7 +229,6 @@ class HistoryAthleteScraper:
                 )
 
             if sample:
-                print("Returned early")
                 return list(zip(athletes, results))
 
         return list(zip(athletes, results))
