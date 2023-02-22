@@ -4,7 +4,7 @@ An interactive web tour through the history of The Chicago Marathon.
 
 ## Setup
 
-First, Make sure you remove '-example' from both .env-example after configuring it with your own variables.
+First, Make sure you remove '-example' from ./src/backend/.env-example after configuring it with your own variables.
 
 Then,
 
