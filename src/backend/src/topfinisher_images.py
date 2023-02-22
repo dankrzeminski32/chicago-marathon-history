@@ -34,8 +34,6 @@ class TopFinisherImageRetriever:
         if img_element is not None:
             img_element = img_element.find("img")['src']
             img_link = img_element[2:]
-            print(img_link)
             athlete.img = img_link
             db.session.commit()
             
-        print(athlete_link)
