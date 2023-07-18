@@ -1,11 +1,23 @@
 from src.backend import db
 from marshmallow import Schema, fields
+import math
+from bs4 import BeautifulSoup
 
 marathon_athlete = db.Table(
     "marathon_athlete",
     db.Column("MarathonEvent_id", db.Integer, db.ForeignKey("MarathonEvents.id")),
     db.Column("Athletes_id", db.Integer, db.ForeignKey("Athletes.id")),
 )
+
+
+class MarathonDataHTML(BeautifulSoup):
+    """Represents One Page of Marathon Results"""
+
+    def __init__(self, html_file_data: bytes, marathon, gender: str):
+        super().__init__(html_file_data, "html.parser")
+        self.marathon_id = marathon.id
+        self.marathon = marathon
+        self.gender = gender
 
 
 class MarathonEvent(db.Model):
@@ -51,6 +63,34 @@ class MarathonEvent(db.Model):
 
     def __str__(self):
         return f"Marathon Event in {self.year}, unique id = {self.web_id}"
+
+    async def _get_results_html(self, session, gender=None) -> bytes:
+        page = 1
+        url = f"https://chicago-history.r.mikatiming.com/2015/?page=1&event=ALL_EVENT_GROUP_{str(self.year)}&lang=EN_CAP&pid=search&pidp=start"
+        if gender:
+            url = f"https://chicago-history.r.mikatiming.com/2015/?page={page}&event={self.web_id}&lang=EN_CAP&num_results=25&pid=list&pidp=start&search%5Bsex%5D={gender}&search%5Bage_class%5D=%25"
+        html = None
+        async with session.get(url) as response:
+            html = await response.read()
+        return MarathonDataHTML(html, self, gender)
+
+    async def get_male_results_html(self, session) -> bytes:
+        return await self._get_results_html(session, gender="M")
+
+    async def get_results_html(self, session) -> bytes:
+        return await self._get_results_html(session)
+
+    async def get_female_results_html(self, session) -> bytes:
+        return await self._get_results_html(session, gender="W")
+
+    async def get_male_and_female_results(self, session) -> dict[str, MarathonDataHTML]:
+        return {
+            "M": await self.get_male_results_html(session),
+            "W": await self.get_female_results_html(session),
+        }
+
+    def get_num_of_result_pages(self) -> int:
+        return math.ceil(self.num_athletes / 1000)
 
 
 class MarathonSchema(Schema):
