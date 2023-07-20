@@ -22,7 +22,7 @@ docker compose up -d
 ```
 
 ```
-docker compose exec backend flask db seed-sample
+docker compose exec backend flask db seed
 ```
 
 to run test suite:
