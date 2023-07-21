@@ -6,7 +6,7 @@ from flask_cors import CORS, cross_origin
 db = SQLAlchemy()
 
 
-def init_app(config: object | str):
+def init_app(config):
     """Initialize the core application."""
     app = Flask(__name__, instance_relative_config=False)
     cors = CORS(app)

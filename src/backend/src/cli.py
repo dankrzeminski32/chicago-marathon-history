@@ -14,24 +14,14 @@ def create():
 
 @db_commands_bp.cli.command("seed")
 def seed():
-    marathons = history.HistoryMarathonScraper().get_marathons()
-    marathon_list = list(marathons.values())
+    db.create_all()
+    marathons = history.MarathonParticipantCountScraper().get_marathons()
     seed = seeder.Seeder()
-    seed.populate_table(marathon_list)
+    seed.populate_table(marathons)
     db.session.commit()
-    data = history.HistoryAthleteScraper().get_data()
-    print(f"LENGTH OF RETRIEVED DATA, {data}")
-    seed.populate_athletes_and_results(data)
-
-
-@db_commands_bp.cli.command("seed-sample")
-def seed_sample():
-    marathons = history.HistoryMarathonScraper().get_marathons()
-    marathon_list = list(marathons.values())
-    seed = seeder.Seeder()
-    seed.populate_table(marathon_list)
-    db.session.commit()
-    data = history.HistoryAthleteScraper().get_data(sample=True)
+    print("FINISHED POPULATING MARATHONS")
+    data = history.AthleteResultScraper().parse_for_athletes_and_results()
+    print(f"LENGTH OF RETRIEVED DATA, {len(data)}")
     seed.populate_athletes_and_results(data)
     TopFinisherImageRetriever.get_images()
 
@@ -40,3 +30,8 @@ def seed_sample():
 def recreate():
     db.drop_all()
     db.create_all()
+
+
+@db_commands_bp.cli.command("seed-athlete-images")
+def seedAthleteImages():
+    TopFinisherImageRetriever.get_images()
