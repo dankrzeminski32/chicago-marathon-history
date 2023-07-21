@@ -15,9 +15,7 @@ class Seeder:
         """Used this way to get the PK value from athlete to be used in the result table"""
         print(f"STARTING DB POPULATION, list size: {len(data)}")
         for tuple_results in data:
-            for index, tup in enumerate(tuple_results):
+            for tup in tuple_results:
                 db.session.add(tup[0])
-                db.session.flush()
-                tup[1].athlete_id = tup[0].id
                 db.session.add(tup[1])
-            db.session.commit()
+        db.session.commit()

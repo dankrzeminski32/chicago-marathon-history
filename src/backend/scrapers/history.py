@@ -16,20 +16,7 @@ import sys
 from time import time
 
 
-def timer_func(func):
-    # This function shows the execution time of
-    # the function object passed
-    def wrap_func(*args, **kwargs):
-        t1 = time()
-        result = func(*args, **kwargs)
-        t2 = time()
-        print(f"Function {func.__name__!r} executed in {(t2-t1):.4f}s")
-        return result
-
-    return wrap_func
-
-
-sys.setrecursionlimit(10000)
+sys.setrecursionlimit(25000)
 
 
 class EventJsonParser:
@@ -77,33 +64,31 @@ class EventJsonParser:
         return parsed_marathon_events
 
 
-class HistoryMarathonScraper:
-    """Scrapes Athlete data and finish times over 20 years"""
+class MarathonParticipantCountScraper:
+    """Scrapes total number of participants for each marathon"""
 
     def __init__(self):
         self.marathons: dict[
             int:MarathonEvent
         ] = EventJsonParser().get_marathon_event_ids()
 
-    async def _fetch_html(self) -> list[MarathonDataHTML]:
-        tasks = []
-        async with aiohttp.ClientSession() as session:
-            for marathon in self.marathons.values():
-                tasks.append(marathon.get_male_and_female_results(session))
-            htmls = await asyncio.gather(*tasks)
+    def _fetch_html(self) -> list[MarathonDataHTML]:
+        htmls = []
+        for marathon in self.marathons.values():
+            htmls.append(marathon.get_male_and_female_results())
         return htmls
 
     def _populate_marathon_with_participant_data(
         self, parsers: [str, MarathonDataHTML]
     ) -> None:
-        parsers["M"].marathon = parsers["W"].marathon
-        parsers["M"].marathon.num_athletes_male = self._find_total_participants(
-            parsers["M"]
+        parsers["M"][0].marathon = parsers["W"][0].marathon
+        parsers["M"][0].marathon.num_athletes_male = self._find_total_participants(
+            parsers["M"][0]
         )
-        parsers["W"].marathon.num_athletes_female = self._find_total_participants(
-            parsers["W"]
+        parsers["W"][0].marathon.num_athletes_female = self._find_total_participants(
+            parsers["W"][0]
         )
-        return parsers["M"].marathon
+        return parsers["M"][0].marathon
 
     def _find_total_participants(self, html_data: MarathonDataHTML) -> int:
         total_participants = html_data.find(
@@ -111,38 +96,41 @@ class HistoryMarathonScraper:
         ).text.split()[0]
         return int(total_participants)
 
-    async def get_marathons(self) -> list[MarathonEvent]:
+    def get_marathons(self) -> list[MarathonEvent]:
         """returns a list of MarathonEvent objects"""
-        parsers = await self._fetch_html()
+        parsers = self._fetch_html()
         with Pool(20) as p:
             data = p.map(self._populate_marathon_with_participant_data, parsers)
         return data
 
 
-class MarathonDataScraper:
-    """Utilizes parallel processing to parse large number of html files containing race data."""
+class AthleteResultScraper:
+    """Scrapes Athletes and Results for each marathon"""
 
     def __init__(self):
         self.marathons: list[MarathonEvent] = MarathonEventService.get_all()
 
-    @timer_func
-    async def fetch_html(self) -> list[MarathonDataHTML]:
-        tasks = []
-        async with aiohttp.ClientSession() as session:
-            for marathon in self.marathons:
-                tasks.append(marathon.get_male_results_html(session))
-                tasks.append(marathon.get_female_results_html(session))
-            htmls = await asyncio.gather(*tasks)
+    def fetch_html(self) -> list[MarathonDataHTML]:
+        htmls = []
+        for marathon in self.marathons:
+            male_results = marathon.get_male_results_html()
+            female_results = marathon.get_female_results_html()
+            htmls.append(male_results)
+            htmls.append(female_results)
+            print(f"Finished Getting HTML for {marathon.year}")
+            print(f"Total Number of HTML Documents - {len(male_results)+len(female_results)}")
         return htmls
 
-    async def parse_for_athletes_and_results(self):
-        parsers = await self.fetch_html()
+    def parse_for_athletes_and_results(self):
+        parsers = self.fetch_html()
+        parsers = [item for sublist in parsers for item in sublist] #Flatten the list
         with Pool(20) as p:
             data = p.map(self._parse_raw_html, parsers)
 
         return data
 
     def _parse_raw_html(self, parser: MarathonDataHTML) -> tuple[Athlete | Result]:
+        print(type(parser))
         athletes = []
         results = []
         all_rows = parser.findAll(
@@ -152,32 +140,39 @@ class MarathonDataScraper:
 
         for row in all_rows:
             athlete = self._get_athlete_info_from_row(row)
-            athlete.gender = (
-                SEX.MALE.value if parser.gender == "M" else SEX.FEMALE.value
-            )
-            result = self._get_result_info_from_row(row)
-            result.athlete_id = athlete.id
-            result.marathon_event_id = parser.marathon_id
-            athletes.append(athlete)
-            results.append(result)
+            if athlete:
+                athlete.gender = (
+                    SEX.MALE.value if parser.gender == "M" else SEX.FEMALE.value
+                )
+                result = self._get_result_info_from_row(row)
+                result.athlete = athlete
+                result.marathon_event_id = parser.marathon_id
+                athletes.append(athlete)
+                results.append(result)
 
+        print(f"Finished Parsing HTML for {parser.marathon.year}")
+        print(f"Total Athletes Found: {len(athletes)}")
+        print(f"Total Results Found: {len(results)}")
         return list(zip(athletes, results))
 
     def _get_athlete_info_from_row(self, row):
-        name = row.find("h4", attrs={"class": "list-field type-fullname"}).text  # name
-        first_and_last_name = name.split(", ")
-        last_name = first_and_last_name[0]
-        last_name_and_country = first_and_last_name[1].split(" (")
-        first_name = last_name_and_country[0]
-        if len(last_name_and_country) > 1:
-            country = last_name_and_country[1][:-1]
-        else:
-            country = None
-        return Athlete(
-            first_name=first_name,
-            last_name=last_name,
-            country=country,
-        )
+        try:
+            name = row.find("h4", attrs={"class": "list-field type-fullname"}).text  # name
+            first_and_last_name = name.split(", ")
+            last_name = first_and_last_name[0]
+            last_name_and_country = first_and_last_name[1].split(" (")
+            first_name = last_name_and_country[0]
+            if len(last_name_and_country) > 1:
+                country = last_name_and_country[1][:-1]
+            else:
+                country = None
+            return Athlete(
+                first_name=first_name,
+                last_name=last_name,
+                country=country,
+            )
+        except IndexError:
+            print("ENCOUNTERED INDEX ERROR")
 
     def _get_result_info_from_row(self, row):
         place_overall = row.find(
