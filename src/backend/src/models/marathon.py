@@ -84,7 +84,7 @@ class MarathonEvent(db.Model):
         return results
 
 
-    def _create_data_urls(self, gender=None, sample=False) -> list[str]:
+    def _create_data_urls(self, gender=None, sample=False):
         urls = []
         page_count = 1
         if gender:

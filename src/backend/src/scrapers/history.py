@@ -11,9 +11,7 @@ from src.constants import SEX
 from time import sleep
 from random import randint
 import datetime
-import asyncio
-import aiohttp
-from src.backend.models.marathon import MarathonDataHTML
+from src.models.marathon import MarathonDataHTML
 from multiprocessing import Pool
 import sys
 from time import time

@@ -14,6 +14,7 @@ def create():
 
 @db_commands_bp.cli.command("seed")
 def seed():
+    db.create_all()
     marathons = history.MarathonParticipantCountScraper().get_marathons()
     seed = seeder.Seeder()
     seed.populate_table(marathons)
