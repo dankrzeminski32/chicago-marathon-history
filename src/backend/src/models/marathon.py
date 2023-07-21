@@ -1,4 +1,4 @@
-from src.backend import db
+from src import db
 from marshmallow import Schema, fields
 import math
 from bs4 import BeautifulSoup

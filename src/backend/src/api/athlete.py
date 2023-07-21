@@ -1,8 +1,8 @@
 from flask import Blueprint
-from src.backend.models.athlete import AthleteSchema
+from src.models.athlete import AthleteSchema
 from flask import jsonify
-from src.backend.services.athlete_service import AthleteService
-from src.backend.constants import ENDPOINTS, ERROR_MESSAGES
+from src.services.athlete_service import AthleteService
+from src.constants import ENDPOINTS, ERROR_MESSAGES
 
 athlete_api_bp = Blueprint("athlete_api", __name__, url_prefix=ENDPOINTS.ATHLETES.value)
 

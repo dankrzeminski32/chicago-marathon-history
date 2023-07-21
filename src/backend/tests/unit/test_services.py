@@ -1,7 +1,7 @@
-from src.backend.services.athlete_service import AthleteService
-from src.backend.services.marathon_service import MarathonEventService
-from src.backend.services.result_service import ResultService
-from src.backend.constants import SEX
+from src.services.athlete_service import AthleteService
+from src.services.marathon_service import MarathonEventService
+from src.services.result_service import ResultService
+from src.constants import SEX
 import pytest
 
 ### ATHLETE SERVICE TESTS ###

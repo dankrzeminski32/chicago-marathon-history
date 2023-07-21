@@ -2,11 +2,14 @@
 Module used to scrape the official chicago marathon results website. Will be used via a command line "flask run seed"
 """
 import requests
-from src.backend.models.marathon import MarathonEvent
-from src.backend.models.athlete import Athlete
-from src.backend.models.result import Result
-from src.backend.services.marathon_service import MarathonEventService
-from src.backend.constants import SEX
+from src.models.marathon import MarathonEvent
+from src.models.athlete import Athlete
+from src.models.result import Result
+from src.services.marathon_service import MarathonEventService
+import math
+from src.constants import SEX
+from time import sleep
+from random import randint
 import datetime
 import asyncio
 import aiohttp
@@ -143,7 +146,7 @@ class AthleteResultScraper:
             if athlete:
                 athlete.gender = (
                     SEX.MALE.value if parser.gender == "M" else SEX.FEMALE.value
-                )
+                    )
                 result = self._get_result_info_from_row(row)
                 result.athlete = athlete
                 result.marathon_event_id = parser.marathon_id

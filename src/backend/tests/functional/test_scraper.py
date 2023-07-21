@@ -1,4 +1,4 @@
-from src.backend.scrapers import history
+from src.scrapers import history
 
 
 def test_get_marathons():

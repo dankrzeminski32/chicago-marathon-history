@@ -1,4 +1,4 @@
-from src.backend.models.marathon import MarathonEvent
+from src.models.marathon import MarathonEvent
 from sqlalchemy.exc import NoResultFound
 
 class MarathonEventService(object):

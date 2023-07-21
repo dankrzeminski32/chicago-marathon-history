@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify
-from src.backend.models.result import ResultSchema
-from src.backend.services.result_service import ResultService, InvalidSexInput
-from src.backend.constants import ENDPOINTS, ERROR_MESSAGES
+from src.models.result import ResultSchema
+from src.services.result_service import ResultService, InvalidSexInput
+from src.constants import ENDPOINTS, ERROR_MESSAGES
 
 result_api_bp = Blueprint("result_api", __name__, url_prefix=ENDPOINTS.RESULTS.value)
 

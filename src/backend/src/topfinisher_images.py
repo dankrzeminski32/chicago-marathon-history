@@ -1,11 +1,11 @@
 import wikipedia
-from src.backend.services.marathon_service import MarathonEventService
-from src.backend.services.result_service import ResultService
+from src.services.marathon_service import MarathonEventService
+from src.services.result_service import ResultService
 import bs4 as bs
 import urllib.request
-from src.backend.models.athlete import Athlete
+from src.models.athlete import Athlete
 from wikipedia.exceptions import DisambiguationError
-from src.backend import db
+from src import db
 
 
 class TopFinisherImageRetriever:
@@ -34,8 +34,6 @@ class TopFinisherImageRetriever:
         if img_element is not None:
             img_element = img_element.find("img")['src']
             img_link = img_element[2:]
-            print(img_link)
             athlete.img = img_link
             db.session.commit()
             
-        print(athlete_link)

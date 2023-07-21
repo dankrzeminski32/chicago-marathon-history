@@ -1,13 +1,12 @@
 from typing import Any
-from src.backend import db
 from functools import reduce
+from src import db
 
 
 class Seeder:
     def populate_table(self, data: list[Any]) -> None:
         """populates a table given a list"""
         for obj in data:
-            print(obj)
             db.session.add(obj)
         db.session.commit()
 
